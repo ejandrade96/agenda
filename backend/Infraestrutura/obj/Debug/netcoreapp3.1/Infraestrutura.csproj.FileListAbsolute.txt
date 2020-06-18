@@ -1,0 +1,45 @@
+/home/elton/Área de Trabalho/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.deps.json
+/home/elton/Área de Trabalho/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.dll
+/home/elton/Área de Trabalho/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.pdb
+/home/elton/Área de Trabalho/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Dominio.dll
+/home/elton/Área de Trabalho/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Dominio.pdb
+/home/elton/Área de Trabalho/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.csprojAssemblyReference.cache
+/home/elton/Área de Trabalho/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.AssemblyInfoInputs.cache
+/home/elton/Área de Trabalho/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.AssemblyInfo.cs
+/home/elton/Área de Trabalho/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.csproj.CoreCompileInputs.cache
+/home/elton/Área de Trabalho/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.csproj.CopyComplete
+/home/elton/Área de Trabalho/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.dll
+/home/elton/Área de Trabalho/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.pdb
+/home/elton/Área de Trabalho/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.runtimeconfig.json
+/home/elton/Área de Trabalho/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.runtimeconfig.dev.json
+/home/elton/Área de Trabalho/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.genruntimeconfig.cache
+/home/elton/Documentos/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.csprojAssemblyReference.cache
+/home/elton/Documentos/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.AssemblyInfoInputs.cache
+/home/elton/Documentos/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.AssemblyInfo.cs
+/home/elton/Documentos/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.csproj.CoreCompileInputs.cache
+/home/elton/Documentos/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.dll
+/home/elton/Documentos/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.pdb
+/home/elton/Documentos/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.deps.json
+/home/elton/Documentos/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.runtimeconfig.json
+/home/elton/Documentos/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.runtimeconfig.dev.json
+/home/elton/Documentos/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.dll
+/home/elton/Documentos/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.pdb
+/home/elton/Documentos/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Dominio.dll
+/home/elton/Documentos/agenda/Infraestrutura/bin/Debug/netcoreapp3.1/Dominio.pdb
+/home/elton/Documentos/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.csproj.CopyComplete
+/home/elton/Documentos/agenda/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.genruntimeconfig.cache
+/home/elton/Documentos/agenda/backend/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.deps.json
+/home/elton/Documentos/agenda/backend/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.runtimeconfig.json
+/home/elton/Documentos/agenda/backend/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.runtimeconfig.dev.json
+/home/elton/Documentos/agenda/backend/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.dll
+/home/elton/Documentos/agenda/backend/Infraestrutura/bin/Debug/netcoreapp3.1/Infraestrutura.pdb
+/home/elton/Documentos/agenda/backend/Infraestrutura/bin/Debug/netcoreapp3.1/Dominio.dll
+/home/elton/Documentos/agenda/backend/Infraestrutura/bin/Debug/netcoreapp3.1/Dominio.pdb
+/home/elton/Documentos/agenda/backend/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.csprojAssemblyReference.cache
+/home/elton/Documentos/agenda/backend/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.AssemblyInfoInputs.cache
+/home/elton/Documentos/agenda/backend/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.AssemblyInfo.cs
+/home/elton/Documentos/agenda/backend/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.csproj.CoreCompileInputs.cache
+/home/elton/Documentos/agenda/backend/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.csproj.CopyComplete
+/home/elton/Documentos/agenda/backend/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.dll
+/home/elton/Documentos/agenda/backend/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.pdb
+/home/elton/Documentos/agenda/backend/Infraestrutura/obj/Debug/netcoreapp3.1/Infraestrutura.genruntimeconfig.cache

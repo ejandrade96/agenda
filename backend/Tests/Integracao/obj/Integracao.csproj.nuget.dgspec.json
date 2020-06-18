@@ -1,0 +1,362 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/elton/Documentos/agenda/backend/Tests/Integracao/Integracao.csproj": {}
+  },
+  "projects": {
+    "/home/elton/Documentos/agenda/backend/Api/Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/elton/Documentos/agenda/backend/Api/Api.csproj",
+        "projectName": "Api",
+        "projectPath": "/home/elton/Documentos/agenda/backend/Api/Api.csproj",
+        "packagesPath": "/home/elton/.nuget/packages/",
+        "outputPath": "/home/elton/Documentos/agenda/backend/Api/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/elton/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "/home/elton/Documentos/agenda/backend/Dominio/Dominio.csproj": {
+                "projectPath": "/home/elton/Documentos/agenda/backend/Dominio/Dominio.csproj"
+              },
+              "/home/elton/Documentos/agenda/backend/Infraestrutura/Infraestrutura.csproj": {
+                "projectPath": "/home/elton/Documentos/agenda/backend/Infraestrutura/Infraestrutura.csproj"
+              },
+              "/home/elton/Documentos/agenda/backend/Servicos/Servicos.csproj": {
+                "projectPath": "/home/elton/Documentos/agenda/backend/Servicos/Servicos.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/elton/Documentos/agenda/backend/Dominio/Dominio.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/elton/Documentos/agenda/backend/Dominio/Dominio.csproj",
+        "projectName": "Dominio",
+        "projectPath": "/home/elton/Documentos/agenda/backend/Dominio/Dominio.csproj",
+        "packagesPath": "/home/elton/.nuget/packages/",
+        "outputPath": "/home/elton/Documentos/agenda/backend/Dominio/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/elton/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/elton/Documentos/agenda/backend/Infraestrutura/Infraestrutura.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/elton/Documentos/agenda/backend/Infraestrutura/Infraestrutura.csproj",
+        "projectName": "Infraestrutura",
+        "projectPath": "/home/elton/Documentos/agenda/backend/Infraestrutura/Infraestrutura.csproj",
+        "packagesPath": "/home/elton/.nuget/packages/",
+        "outputPath": "/home/elton/Documentos/agenda/backend/Infraestrutura/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/elton/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "/home/elton/Documentos/agenda/backend/Dominio/Dominio.csproj": {
+                "projectPath": "/home/elton/Documentos/agenda/backend/Dominio/Dominio.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite.Design": {
+              "target": "Package",
+              "version": "[1.1.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/elton/Documentos/agenda/backend/Servicos/Servicos.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/elton/Documentos/agenda/backend/Servicos/Servicos.csproj",
+        "projectName": "Servicos",
+        "projectPath": "/home/elton/Documentos/agenda/backend/Servicos/Servicos.csproj",
+        "packagesPath": "/home/elton/.nuget/packages/",
+        "outputPath": "/home/elton/Documentos/agenda/backend/Servicos/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/elton/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "/home/elton/Documentos/agenda/backend/Dominio/Dominio.csproj": {
+                "projectPath": "/home/elton/Documentos/agenda/backend/Dominio/Dominio.csproj"
+              },
+              "/home/elton/Documentos/agenda/backend/Infraestrutura/Infraestrutura.csproj": {
+                "projectPath": "/home/elton/Documentos/agenda/backend/Infraestrutura/Infraestrutura.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/elton/Documentos/agenda/backend/Tests/Integracao/Integracao.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/elton/Documentos/agenda/backend/Tests/Integracao/Integracao.csproj",
+        "projectName": "Integracao",
+        "projectPath": "/home/elton/Documentos/agenda/backend/Tests/Integracao/Integracao.csproj",
+        "packagesPath": "/home/elton/.nuget/packages/",
+        "outputPath": "/home/elton/Documentos/agenda/backend/Tests/Integracao/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/elton/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "/home/elton/Documentos/agenda/backend/Api/Api.csproj": {
+                "projectPath": "/home/elton/Documentos/agenda/backend/Api/Api.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[5.10.3, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Testing": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.5.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

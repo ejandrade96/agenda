@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "m/tFHeYY0ZsXSqusA+vlKq2nU22ETfHf7Ws4KUWDAuDo+aZ6YqeubV0fwNcj+BlfAvlbNeFar+KTJyznJb/oIQ==",
+  "success": true,
+  "projectFilePath": "/home/elton/Documentos/agenda/backend/Dominio/Dominio.csproj",
+  "expectedPackageFiles": [
+    "/home/elton/.nuget/packages/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
