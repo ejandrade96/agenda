@@ -1,9 +1,0 @@
-/home/elton/Área de Trabalho/agenda/Dominio/bin/Debug/netstandard2.0/Dominio.deps.json
-/home/elton/Área de Trabalho/agenda/Dominio/bin/Debug/netstandard2.0/Dominio.dll
-/home/elton/Área de Trabalho/agenda/Dominio/bin/Debug/netstandard2.0/Dominio.pdb
-/home/elton/Área de Trabalho/agenda/Dominio/obj/Debug/netstandard2.0/Dominio.csprojAssemblyReference.cache
-/home/elton/Área de Trabalho/agenda/Dominio/obj/Debug/netstandard2.0/Dominio.AssemblyInfoInputs.cache
-/home/elton/Área de Trabalho/agenda/Dominio/obj/Debug/netstandard2.0/Dominio.AssemblyInfo.cs
-/home/elton/Área de Trabalho/agenda/Dominio/obj/Debug/netstandard2.0/Dominio.csproj.CoreCompileInputs.cache
-/home/elton/Área de Trabalho/agenda/Dominio/obj/Debug/netstandard2.0/Dominio.dll
-/home/elton/Área de Trabalho/agenda/Dominio/obj/Debug/netstandard2.0/Dominio.pdb

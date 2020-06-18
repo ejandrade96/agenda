@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "/home/elton/.dotnet/store/|arch|/|tfm|",
-      "/home/elton/.nuget/packages"
-    ]
-  }
-}
