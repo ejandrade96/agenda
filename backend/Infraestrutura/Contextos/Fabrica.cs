@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -7,7 +8,7 @@ namespace Agenda.Infraestrutura.Contextos
   {
     public MyContext CreateDbContext(string[] args)
     {
-      var conexao = "Data Source=/home/elton/Documentos/agenda/backend/Api/agenda.db";
+      var conexao = "Data Source=" + Path.Combine(Directory.GetCurrentDirectory(), "../Api/agenda.db");
       var optionsBuilder = new DbContextOptionsBuilder<MyContext>();
       optionsBuilder.UseSqlite(conexao);
 

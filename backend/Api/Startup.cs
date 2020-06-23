@@ -11,6 +11,8 @@ namespace Agenda.Api
 {
   public class Startup
   {
+    private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
@@ -21,6 +23,17 @@ namespace Agenda.Api
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddCors(options =>
+        {
+          options.AddPolicy(name: MyAllowSpecificOrigins,
+                            builder =>
+                            {
+                              builder.WithOrigins("http://localhost:3000")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                            });
+        });
+
       services.AddControllers();
 
       services.AddDbContext<Contextos.MyContext>(options => options.UseSqlite(Configuration["ConexaoSqlite:SqliteConnectionString"]));
@@ -41,6 +54,8 @@ namespace Agenda.Api
       app.UseHttpsRedirection();
 
       app.UseRouting();
+
+      app.UseCors(MyAllowSpecificOrigins);
 
       app.UseAuthorization();
 
