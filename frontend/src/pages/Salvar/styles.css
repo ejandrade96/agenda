@@ -38,6 +38,10 @@
   padding: 10 24px;
 }
 
+.salvar-container .content body form input:focus {
+  outline: none;
+}
+
 .salvar-container .content body form button {
   width: 102%;
   height: 60px;

@@ -7,15 +7,20 @@ import "./styles.css";
 import api from "../../services/api";
 
 export default function Home() {
+  const [inputBusca, setInputBusca] = useState("");
   const [contatos, setContatos] = useState([]);
 
   const history = useHistory();
 
   useEffect(() => {
     api.get("contatos").then((response) => {
-      setContatos(response.data);
+      setContatos(
+        response.data.filter((c) =>
+          c.nome.toLowerCase().includes(inputBusca.toLowerCase())
+        )
+      );
     });
-  }, []);
+  }, [inputBusca]);
 
   async function handleDelete(id) {
     try {
@@ -29,9 +34,9 @@ export default function Home() {
     }
   }
 
-  async function handleEdit(id, objeto) {
-    history.push(`/editar/${id}`, objeto);
-  }
+  const handleEdit = (id, objeto) => history.push(`/editar/${id}`, objeto);
+
+  const handleChange = (evento) => setInputBusca(evento.target.value);
 
   return (
     <div className="home-container">
@@ -44,6 +49,12 @@ export default function Home() {
           <Link className="link" to="/salvar">
             Criar Novo Contato
           </Link>
+
+          <div>
+            <form>
+              <input placeholder="Procurar" onChange={handleChange} />
+            </form>
+          </div>
 
           <table className="table-contatos">
             <thead>

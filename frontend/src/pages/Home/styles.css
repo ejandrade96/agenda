@@ -1,10 +1,28 @@
-.home-container header h1 {
+.home-container .content header h1 {
 }
 
-/* .home-container .content body {
+.home-container .content body {
   background: #f0f0f5;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
-} */
+}
+
+.home-container .content body form input {
+  width: 100vw;
+  margin-top: 8px;
+  font: 400 15px sans-serif;
+
+  height: 38px;
+  color: #333;
+  border: 1px solid silver;
+  border-radius: 8px;
+
+  background: #f0f0f5;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
+}
+
+.home-container .content body form input:focus {
+  outline: none;
+}
 
 .home-container .content body .table-contatos {
   width: 100vw;
