@@ -13,9 +13,12 @@ namespace Agenda.Api
   {
     private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-    public Startup(IConfiguration configuration)
+    private IWebHostEnvironment _appHost;
+
+    public Startup(IConfiguration configuration, IWebHostEnvironment appHost)
     {
       Configuration = configuration;
+      _appHost = appHost;
     }
 
     public IConfiguration Configuration { get; }
@@ -36,7 +39,7 @@ namespace Agenda.Api
 
       services.AddControllers();
 
-      services.AddDbContext<Contextos.MyContext>(options => options.UseSqlite(Configuration["ConexaoSqlite:SqliteConnectionString"]));
+      services.AddDbContext<Contextos.MyContext>(options => options.UseSqlite($"Data Source={_appHost.ContentRootPath}/agenda.db"));
 
       services.AddAutoMapper(typeof(Mapeamentos.Contato));
       services.AddTransient<Dominio.Servicos.Contato, Servicos.Contato>();
