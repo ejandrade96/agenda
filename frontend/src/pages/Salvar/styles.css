@@ -43,6 +43,8 @@
 }
 
 .salvar-container .content body form button {
+  outline: none;
+
   width: 102%;
   height: 60px;
 

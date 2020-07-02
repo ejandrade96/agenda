@@ -70,6 +70,42 @@ namespace Agenda.Tests.Integracao
     }
 
     [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Cadastrar_Um_Contato_Com_Telefone_Invalido()
+    {
+      var contato = new
+      {
+        nome = "Contato",
+        telefone = "11 25",
+        celular = "11 958742136",
+        email = "contato@live.com"
+      };
+
+      var retorno = await _api.PostAsync("/contatos", ConverterParaJSON<Object>(contato));
+      var mensagem = await retorno.Content.ReadAsStringAsync();
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+      mensagem.Should().Contain("Telefone inválido!");
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Cadastrar_Um_Contato_Com_Celular_Invalido()
+    {
+      var contato = new
+      {
+        nome = "Contato",
+        telefone = "11 45872534",
+        celular = "11 45ds24",
+        email = "contato@live.com"
+      };
+
+      var retorno = await _api.PostAsync("/contatos", ConverterParaJSON<Object>(contato));
+      var mensagem = await retorno.Content.ReadAsStringAsync();
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+      mensagem.Should().Contain("Celular inválido!");
+    }
+
+    [Fact]
     public async Task Deve_Retornar_Um_Contato_Por_Id()
     {
       var retorno = await _api.GetAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef");

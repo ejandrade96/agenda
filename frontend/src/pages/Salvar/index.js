@@ -46,9 +46,20 @@ export default function Salvar(props) {
 
       history.push("/");
     } catch (erro) {
-      alert(
-        `Erro: ${erro.response.data.errors.Email[0]}, Status Code ${erro.response.data.status}`
-      );
+      const erroTelefone = erro.response.data.errors.Telefone
+        ? erro.response.data.errors.Telefone[0]
+        : "";
+
+      const erroCelular = erro.response.data.errors.Celular
+        ? erro.response.data.errors.Celular[0]
+        : "";
+
+      const erroEmail = erro.response.data.errors.Email
+        ? erro.response.data.errors.Email[0]
+        : "";
+
+      alert(`${erroTelefone} ${erroCelular} ${erroEmail}`);
+      history.push("/");
     }
   }
 
