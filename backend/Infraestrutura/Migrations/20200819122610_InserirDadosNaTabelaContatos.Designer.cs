@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestrutura.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20200618121820_CriarTabelaContatos")]
-    partial class CriarTabelaContatos
+    [Migration("20200819122610_InserirDadosNaTabelaContatos")]
+    partial class InserirDadosNaTabelaContatos
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,30 +21,54 @@ namespace Infraestrutura.Migrations
             modelBuilder.Entity("Agenda.Dominio.Modelos.Contato", b =>
                 {
                     b.Property<Guid>("Id")
-                        .IsConcurrencyToken()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Celular")
-                        .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nome")
-                        .IsConcurrencyToken()
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Telefone")
-                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("UsuarioId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UsuarioId");
+
                     b.ToTable("Contatos");
+                });
+
+            modelBuilder.Entity("Agenda.Dominio.Modelos.Usuario", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Login")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Senha")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("Agenda.Dominio.Modelos.Contato", b =>
+                {
+                    b.HasOne("Agenda.Dominio.Modelos.Usuario", "Usuario")
+                        .WithMany("Contatos")
+                        .HasForeignKey("UsuarioId");
                 });
 #pragma warning restore 612, 618
         }

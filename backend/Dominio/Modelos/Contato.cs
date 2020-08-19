@@ -14,12 +14,19 @@ namespace Agenda.Dominio.Modelos
 
     public string Email { get; protected set; }
 
-    public Contato(string nome, string celular, string telefone, string email)
+    public Usuario Usuario { get; protected set; }
+
+    protected Contato()
+    {
+    }
+
+    public Contato(string nome, string celular, string telefone, string email, Usuario usuario)
     {
       Nome = nome;
       Celular = celular;
       Email = email;
       Telefone = telefone;
+      Usuario = usuario;
     }
   }
 }

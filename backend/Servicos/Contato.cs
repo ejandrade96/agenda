@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using DTOs = Agenda.Dominio.DTOs;
 using Modelos = Agenda.Dominio.Modelos;
+using Fabricas = Agenda.Dominio.Fabricas;
 using Agenda.Dominio.Repositorios;
 using Agenda.Infraestrutura.Erros;
 using System.Collections.Generic;
@@ -12,9 +13,12 @@ namespace Agenda.Servicos
   {
     private readonly Contatos _contatos;
 
-    public Contato(Contatos contatos)
+    private readonly Usuarios _usuarios;
+
+    public Contato(Contatos contatos, Usuarios usuarios)
     {
       _contatos = contatos;
+      _usuarios = usuarios;
     }
 
     public async Task<List<Modelos.Contato>> Listar(string nome) => await _contatos.Listar(nome);
@@ -43,10 +47,15 @@ namespace Agenda.Servicos
 
       else
       {
-        var contato = new Modelos.Contato(dadosContato.Nome, dadosContato.Celular, dadosContato.Telefone, dadosContato.Email)
-        {
-          Id = dadosContato.Id
-        };
+        var usuario = await _usuarios.ObterPorId(dadosContato.UsuarioId);
+
+        var contato = new Fabricas.Contato().Nome(dadosContato.Nome)
+                                            .Celular(dadosContato.Celular)
+                                            .Telefone(dadosContato.Telefone)
+                                            .Email(dadosContato.Email)
+                                            .Usuario(usuario)
+                                            .Id(dadosContato.Id)
+                                            .Criar();
 
         contato.Id = await _contatos.Salvar(contato);
         resposta.Resultado = contato;

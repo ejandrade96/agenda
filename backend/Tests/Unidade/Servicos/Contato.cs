@@ -16,10 +16,13 @@ namespace Agenda.Tests.Unidade.Servicos
 
     private readonly Mock<Contatos> _contatos;
 
+    private readonly Mock<Usuarios> _usuarios;
+
     public Contato()
     {
       _contatos = new Mock<Contatos>();
-      _servico = new Agenda.Servicos.Contato(_contatos.Object);
+      _usuarios = new Mock<Usuarios>();
+      _servico = new Agenda.Servicos.Contato(_contatos.Object, _usuarios.Object);
     }
 
     [Fact]
@@ -30,10 +33,15 @@ namespace Agenda.Tests.Unidade.Servicos
         Nome = "Contato",
         Telefone = "11 45873214",
         Celular = "11 985478521",
-        Email = "contato@live.com"
+        Email = "contato@live.com",
+        UsuarioId = Guid.NewGuid()
       };
 
-      _contatos.Setup(repositorio => repositorio.Salvar(It.IsAny<Modelos.Contato>())).Returns(Task.FromResult(Guid.NewGuid()));
+      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
+               .Returns(Task.FromResult(new Modelos.Usuario("", "")));
+
+      _contatos.Setup(repositorio => repositorio.Salvar(It.IsAny<Modelos.Contato>()))
+               .Returns(Task.FromResult(Guid.NewGuid()));
 
       var resposta = await _servico.Salvar(contato);
 
@@ -49,24 +57,33 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Retornar_Um_Contato_Por_Id()
     {
+      var usuario = new Modelos.Usuario("", "");
+
+      var contato = new Modelos.Contato(
+        "Contato",
+        "11 985478521",
+        "11 45873214",
+        "contato@live.com",
+        usuario
+        );
+
       _contatos.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
-        .Returns(Task.FromResult(new Modelos.Contato("Contato", "11 985478521", "11 45873214", "contato@live.com")));
+               .Returns(Task.FromResult(contato));
 
       var resposta = await _servico.ObterPorId(Guid.Parse("1246a68e-755e-4c18-bc7c-49845507691e"));
 
-      var contato = resposta.Resultado;
+      var contatoEncontrado = resposta.Resultado;
 
-      contato.Nome.Should().Be("Contato");
-      contato.Celular.Should().Be("11 985478521");
-      contato.Telefone.Should().Be("11 45873214");
-      contato.Email.Should().Be("contato@live.com");
+      contatoEncontrado.Nome.Should().Be("Contato");
+      contatoEncontrado.Celular.Should().Be("11 985478521");
+      contatoEncontrado.Telefone.Should().Be("11 45873214");
+      contatoEncontrado.Email.Should().Be("contato@live.com");
     }
 
     [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Um_Contato_Inexistente()
     {
-      var id = Guid.NewGuid();
-      var resposta = await _servico.ObterPorId(id);
+      var resposta = await _servico.ObterPorId(Guid.NewGuid());
 
       resposta.Erro.Mensagem.Should().Be("Contato não encontrado(a)!");
       resposta.Erro.StatusCode.Should().Be(404);
@@ -76,17 +93,23 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Atualizar_Um_Contato()
     {
+      var usuario = new Modelos.Usuario("", "");
+
       var contato = new DTOs.Contato
       {
         Nome = "Contato",
         Telefone = "11 45873214",
         Celular = "11 985478521",
         Email = "contato@live.com",
-        Id = Guid.Parse("1246a68e-755e-4c18-bc7c-49845507691e")
+        Id = Guid.Parse("1246a68e-755e-4c18-bc7c-49845507691e"),
+        UsuarioId = Guid.NewGuid()
       };
 
+      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
+               .Returns(Task.FromResult(usuario));
+
       _contatos.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
-        .Returns(Task.FromResult(new Modelos.Contato("Contato", "11 985478521", "11 45873214", "contato@live.com")));
+               .Returns(Task.FromResult(new Modelos.Contato("Contato", "11 985478521", "11 45873214", "contato@live.com", usuario)));
 
       var resposta = await _servico.Salvar(contato);
 
@@ -115,8 +138,18 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Deletar_Um_Contato()
     {
+      var usuario = new Modelos.Usuario("", "");
+
+      var contato = new Modelos.Contato(
+        "Contato",
+        "11 985478521",
+        "11 45873214",
+        "contato@live.com",
+        usuario
+        );
+
       _contatos.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
-        .Returns(Task.FromResult(new Modelos.Contato("Contato", "11 985478521", "11 45873214", "contato@live.com")));
+               .Returns(Task.FromResult(contato));
 
       var resposta = await _servico.Deletar(Guid.Parse("1246a68e-755e-4c18-bc7c-49845507691e"));
 
@@ -126,8 +159,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Deletar_Um_Contato_Inexistente()
     {
-      var id = Guid.NewGuid();
-      var resposta = await _servico.Deletar(id);
+      var resposta = await _servico.Deletar(Guid.NewGuid());
 
       resposta.Erro.Mensagem.Should().Be("Contato não encontrado(a)!");
       resposta.Erro.StatusCode.Should().Be(404);

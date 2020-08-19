@@ -11,11 +11,11 @@ namespace Agenda.Infraestrutura.Mapeamentos
       builder.ToTable("Contatos");
 
       builder.HasKey(contato => contato.Id);
-
       builder.Property(contato => contato.Nome).IsRequired();
       builder.Property(contato => contato.Telefone);
       builder.Property(contato => contato.Celular);
       builder.Property(contato => contato.Email);
+      builder.HasOne(contato => contato.Usuario);
     }
   }
 }

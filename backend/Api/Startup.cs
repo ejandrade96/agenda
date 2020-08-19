@@ -1,3 +1,4 @@
+using Agenda.Api.Extensoes;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,13 +38,15 @@ namespace Agenda.Api
                             });
         });
 
-      services.AddControllers();
+      services.AddControllers().AddNewtonsoftJson(options =>
+      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+      );
+      services.AddServicos();
+      services.AddRepositorios();
 
       services.AddDbContext<Contextos.MyContext>(options => options.UseSqlite($"Data Source={_appHost.ContentRootPath}/agenda.db"));
 
       services.AddAutoMapper(typeof(Mapeamentos.Contato));
-      services.AddTransient<Dominio.Servicos.Contato, Servicos.Contato>();
-      services.AddTransient<Dominio.Repositorios.Contatos, Infraestrutura.Repositorios.Contatos>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

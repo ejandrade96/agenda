@@ -22,15 +22,6 @@ namespace Agenda.Api.Controllers
       _mapper = mapper;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Post([FromBody] DTOs.Contato dadosContato)
-    {
-      var resposta = await _servico.Salvar(dadosContato);
-      dadosContato.Id = resposta.Resultado.Id;
-
-      return Created($"/contatos/{resposta.Resultado.Id}", dadosContato);
-    }
-
     [HttpGet("{id}")]
     public async Task<IActionResult> ObterPorId(Guid id)
     {
@@ -54,21 +45,6 @@ namespace Agenda.Api.Controllers
       var dadosContatos = _mapper.Map<List<DTOs.Contato>>(contatos);
 
       return Ok(dadosContatos);
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, [FromBody] DTOs.Contato dadosContato)
-    {
-      dadosContato.Id = id;
-
-      var resposta = await _servico.Salvar(dadosContato);
-
-      if (resposta.TemErro())
-      {
-        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
-      }
-
-      return NoContent();
     }
 
     [HttpDelete("{id}")]

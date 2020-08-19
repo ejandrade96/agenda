@@ -26,5 +26,7 @@ namespace Agenda.Dominio.DTOs
     public string Email { get; set; }
 
     public Guid Id { get; set; }
+
+    public Guid UsuarioId { get; set; }
   }
 }
