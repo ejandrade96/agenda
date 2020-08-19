@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,14 @@ namespace Agenda.Api.Controllers
     {
       var usuarios = await _servico.Listar();
 
-      return Ok(usuarios);
+      var dadosUsuarios = usuarios.Select((usuario) => new DTOs.Usuario
+      {
+        Id = usuario.Id,
+        Login = usuario.Login,
+        Contatos = usuario.Contatos
+      });
+
+      return Ok(dadosUsuarios);
     }
 
     [HttpGet("{id}")]
@@ -48,11 +56,25 @@ namespace Agenda.Api.Controllers
     {
       var usuario = await _servico.ObterPorId(id);
 
-      return Ok(usuario);
+      var dadosUsuario = new DTOs.Usuario
+      {
+        Id = usuario.Id,
+        Login = usuario.Login,
+        Contatos = usuario.Contatos
+      };
+
+      return Ok(dadosUsuario);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+      await _servico.Deletar(id);
+
+      return NoContent();
     }
 
     [HttpPost("/usuarios/{usuarioId}/contatos")]
-
     public async Task<IActionResult> Post([FromBody] DTOs.Contato dadosContato, Guid usuarioId)
     {
       dadosContato.UsuarioId = usuarioId;

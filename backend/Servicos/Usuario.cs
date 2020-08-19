@@ -15,6 +15,8 @@ namespace Agenda.Servicos
       _usuarios = usuarios;
     }
 
+    public async Task Deletar(Guid id) => await _usuarios.Deletar(id);
+
     public Task<List<Modelos.Usuario>> Listar() => _usuarios.Listar();
 
     public Task<Modelos.Usuario> ObterPorId(Guid id) => _usuarios.ObterPorId(id);

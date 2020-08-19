@@ -41,7 +41,6 @@ namespace Agenda.Tests.Integracao
         usuario.Should().ContainKey("contatos");
         usuario["id"].ToString().Should().NotBeNullOrWhiteSpace();
         usuario["login"].ToString().Should().NotBeNullOrWhiteSpace();
-        usuario["senha"].ToString().Should().NotBeNullOrWhiteSpace();
         usuario["contatos"].ToString().Should().NotBeNullOrWhiteSpace();
       });
     }
@@ -55,7 +54,6 @@ namespace Agenda.Tests.Integracao
 
       retorno.StatusCode.Should().Be(HttpStatusCode.OK);
       usuario["login"].Should().Be("usuario.xpto");
-      usuario["senha"].ToString().Should().NotBeNullOrWhiteSpace();
       usuario["contatos"].ToString().Should().NotBeNullOrWhiteSpace();
     }
   }

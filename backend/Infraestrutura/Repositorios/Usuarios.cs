@@ -20,6 +20,15 @@ namespace Agenda.Infraestrutura.Repositorios
       _dataset = _context.Set<Modelos.Usuario>();
     }
 
+    public async Task Deletar(Guid id)
+    {
+      var contato = await ObterPorId(id);
+
+      _dataset.Remove(contato);
+
+      await _context.SaveChangesAsync();
+    }
+
     public Task<List<Usuario>> Listar() => _dataset.Include(u => u.Contatos).ToListAsync();
 
     public async Task<Usuario> ObterPorId(Guid id)
