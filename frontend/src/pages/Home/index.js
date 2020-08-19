@@ -15,8 +15,10 @@ export default function Home() {
   useEffect(() => {
     api.get("contatos").then((response) => {
       setContatos(
-        response.data.filter((c) =>
-          c.nome.toLowerCase().includes(inputBusca.toLowerCase())
+        response.data.filter(
+          (contato) =>
+            contato.nome.toLowerCase().includes(inputBusca.toLowerCase()) &&
+            contato.email !== "contato1@live.com"
         )
       );
     });

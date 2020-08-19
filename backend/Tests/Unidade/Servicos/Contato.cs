@@ -12,7 +12,7 @@ namespace Agenda.Tests.Unidade.Servicos
 {
   public class Contato
   {
-    private readonly Agenda.Servicos.Contato _servico;
+    private readonly Dominio.Servicos.Contato _servico;
 
     private readonly Mock<Contatos> _contatos;
 
