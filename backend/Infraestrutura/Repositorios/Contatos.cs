@@ -44,7 +44,7 @@ namespace Agenda.Infraestrutura.Repositorios
 
     public async Task<List<Contato>> Listar(string nome)
     {
-      var contatos = await _dataset.ToListAsync();
+      var contatos = await _dataset.Include(c => c.Usuario).ToListAsync();
 
       if (string.IsNullOrWhiteSpace(nome))
         return contatos;
@@ -54,7 +54,7 @@ namespace Agenda.Infraestrutura.Repositorios
 
     public async Task<Contato> ObterPorId(Guid id)
     {
-      var contatos = await _dataset.ToListAsync();
+      var contatos = await _dataset.Include(c => c.Usuario).ToListAsync();
 
       return contatos.FirstOrDefault((c) => c.Id.Equals(id));
     }
