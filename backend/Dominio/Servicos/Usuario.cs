@@ -10,8 +10,8 @@ namespace Agenda.Dominio.Servicos
 
     Task<List<Modelos.Usuario>> Listar();
 
-    Task<Modelos.Usuario> ObterPorId(Guid id);
+    Task<Resposta<Modelos.Usuario>> ObterPorId(Guid id);
 
-    Task Deletar(Guid id);
+    Task<Resposta<Modelos.Usuario>> Deletar(Guid id);
   }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Agenda.Tests.Integracao
     public async Task Deve_Cadastrar_Um_Usuario_Quando_Enviar_Dados_Certos()
     {
       var dadosUsuario = new Dictionary<string, string>();
-      dadosUsuario.Add("login", "usuario.xpto");
+      dadosUsuario.Add("login", "xpto.usuario");
       dadosUsuario.Add("senha", "123456");
 
       var retorno = await _api.PostAsync("/usuarios", CodificarUrl(dadosUsuario));
@@ -55,6 +56,32 @@ namespace Agenda.Tests.Integracao
       retorno.StatusCode.Should().Be(HttpStatusCode.OK);
       usuario["login"].Should().Be("usuario.xpto");
       usuario["contatos"].ToString().Should().NotBeNullOrWhiteSpace();
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Um_Usuario_Inexistente()
+    {
+      var id = Guid.NewGuid();
+      var retorno = await _api.GetAsync($"/usuarios/{id}");
+      var erroEmJson = await retorno.Content.ReadAsStringAsync();
+      var erro = Converter<Dictionary<string, string>>(erroEmJson);
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.NotFound);
+      retorno.StatusCode.Should().Be(404);
+      erro["mensagem"].Should().Be("Usuário não encontrado(a)!");
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Deletar_Um_Usuario_Inexistente()
+    {
+      var id = Guid.NewGuid();
+      var retorno = await _api.DeleteAsync($"/usuarios/{id}");
+      var erroEmJson = await retorno.Content.ReadAsStringAsync();
+      var erro = Converter<Dictionary<string, string>>(erroEmJson);
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.NotFound);
+      retorno.StatusCode.Should().Be(404);
+      erro["mensagem"].Should().Be("Usuário não encontrado(a)!");
     }
   }
 }

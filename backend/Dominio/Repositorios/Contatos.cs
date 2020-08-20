@@ -4,14 +4,10 @@ using System.Threading.Tasks;
 
 namespace Agenda.Dominio.Repositorios
 {
-  public interface Contatos
+  public interface Contatos : Generico<Modelos.Contato>
   {
-    Task<Guid> Salvar(Modelos.Contato contato);
-
     Task<Modelos.Contato> ObterPorId(Guid id);
 
     Task<List<Modelos.Contato>> Listar(string nome);
-
-    Task Deletar(Guid id);
   }
 }

@@ -54,7 +54,14 @@ namespace Agenda.Api.Controllers
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-      var usuario = await _servico.ObterPorId(id);
+      var resposta = await _servico.ObterPorId(id);
+
+      if (resposta.TemErro())
+      {
+        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+      }
+
+      var usuario = resposta.Resultado;
 
       var dadosUsuario = new DTOs.Usuario
       {
@@ -69,7 +76,12 @@ namespace Agenda.Api.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-      await _servico.Deletar(id);
+      var resposta = await _servico.Deletar(id);
+
+      if (resposta.TemErro())
+      {
+        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+      }
 
       return NoContent();
     }

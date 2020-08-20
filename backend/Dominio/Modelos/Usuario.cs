@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 
 namespace Agenda.Dominio.Modelos
 {
-  public class Usuario
+  public class Usuario : ModeloBase
   {
-    public Guid Id { get; set; }
-
     public string Login { get; protected set; }
 
     public string Senha { get; protected set; }

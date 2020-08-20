@@ -1,11 +1,7 @@
-using System;
-
 namespace Agenda.Dominio.Modelos
 {
-  public class Contato
+  public class Contato : ModeloBase
   {
-    public Guid Id { get; set; }
-
     public string Nome { get; protected set; }
 
     public string Telefone { get; protected set; }

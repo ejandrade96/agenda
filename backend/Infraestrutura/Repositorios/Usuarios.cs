@@ -8,25 +8,14 @@ using Modelos = Agenda.Dominio.Modelos;
 
 namespace Agenda.Infraestrutura.Repositorios
 {
-  public class Usuarios : Dominio.Repositorios.Usuarios
+  public class Usuarios : Generico<Usuario>, Dominio.Repositorios.Usuarios
   {
     private readonly Contextos.MyContext _context;
 
-    public DbSet<Modelos.Usuario> _dataset;
-
-    public Usuarios(Contextos.MyContext context)
+    public Usuarios(Contextos.MyContext context) : base(context)
     {
       _context = context;
       _dataset = _context.Set<Modelos.Usuario>();
-    }
-
-    public async Task Deletar(Guid id)
-    {
-      var contato = await ObterPorId(id);
-
-      _dataset.Remove(contato);
-
-      await _context.SaveChangesAsync();
     }
 
     public Task<List<Usuario>> Listar() => _dataset.Include(u => u.Contatos).ToListAsync();
@@ -36,14 +25,6 @@ namespace Agenda.Infraestrutura.Repositorios
       var usuarios = await _dataset.Include(u => u.Contatos).ToListAsync();
 
       return usuarios.FirstOrDefault((u) => u.Id.Equals(id));
-    }
-
-    public async Task<Guid> Salvar(Modelos.Usuario usuario)
-    {
-      _dataset.Add(usuario);
-      await _context.SaveChangesAsync();
-
-      return usuario.Id;
     }
   }
 }
