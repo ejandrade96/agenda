@@ -9,12 +9,8 @@ namespace Agenda.Infraestrutura.Repositorios
 {
   public class Contatos : Generico<Contato>, Dominio.Repositorios.Contatos
   {
-    private readonly Contextos.MyContext _context;
-
     public Contatos(Contextos.MyContext context) : base(context)
     {
-      _context = context;
-      _dataset = _context.Set<Contato>();
     }
 
     public async Task<List<Contato>> Listar(string nome)
