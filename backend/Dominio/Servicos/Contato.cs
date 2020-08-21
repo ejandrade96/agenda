@@ -13,5 +13,7 @@ namespace Agenda.Dominio.Servicos
     Task<List<Modelos.Contato>> Listar(string nome);
 
     Task<Resposta<Modelos.Contato>> Deletar(Guid id);
+
+    Task<Resposta<Modelos.Contato>> Atualizar(DTOs.Contato dadosContato);
   }
 }

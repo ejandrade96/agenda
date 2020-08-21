@@ -55,6 +55,25 @@ namespace Agenda.Tests.Unidade.Servicos
     }
 
     [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Cadastrar_Um_Contato_Em_Um_Usuario_Inexistente()
+    {
+      var contato = new DTOs.Contato
+      {
+        Nome = "Contato",
+        Telefone = "11 45873214",
+        Celular = "11 985478521",
+        Email = "contato@live.com",
+        UsuarioId = Guid.NewGuid()
+      };
+
+      var resposta = await _servico.Salvar(contato);
+
+      resposta.Erro.Mensagem.Should().Be("Usuário não encontrado(a)!");
+      resposta.Erro.StatusCode.Should().Be(404);
+      resposta.Erro.GetType().Should().Be(typeof(ErroObjetoNaoEncontrado));
+    }
+
+    [Fact]
     public async Task Deve_Retornar_Um_Contato_Por_Id()
     {
       var usuario = new Modelos.Usuario("", "");
@@ -93,25 +112,21 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Atualizar_Um_Contato()
     {
-      var usuario = new Modelos.Usuario("", "");
+      var usuario = new Modelos.Usuario("usuario", "123");
 
       var contato = new DTOs.Contato
       {
+        Id = Guid.Parse("1246a68e-755e-4c18-bc7c-49845507691e"),
         Nome = "Contato",
         Telefone = "11 45873214",
         Celular = "11 985478521",
-        Email = "contato@live.com",
-        Id = Guid.Parse("1246a68e-755e-4c18-bc7c-49845507691e"),
-        UsuarioId = Guid.NewGuid()
+        Email = "contato@live.com"
       };
-
-      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
-               .Returns(Task.FromResult(usuario));
 
       _contatos.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
                .Returns(Task.FromResult(new Modelos.Contato("Contato", "11 985478521", "11 45873214", "contato@live.com", usuario)));
 
-      var resposta = await _servico.Salvar(contato);
+      var resposta = await _servico.Atualizar(contato);
 
       resposta.TemErro().Should().BeFalse();
     }
@@ -121,14 +136,14 @@ namespace Agenda.Tests.Unidade.Servicos
     {
       var contato = new DTOs.Contato
       {
+        Id = Guid.NewGuid(),
         Nome = "Contato",
         Telefone = "11 45873214",
         Celular = "11 985478521",
-        Email = "contato@live.com",
-        Id = Guid.NewGuid()
+        Email = "contato@live.com"
       };
 
-      var resposta = await _servico.Salvar(contato);
+      var resposta = await _servico.Atualizar(contato);
 
       resposta.Erro.Mensagem.Should().Be("Contato não encontrado(a)!");
       resposta.Erro.StatusCode.Should().Be(404);

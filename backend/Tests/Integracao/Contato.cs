@@ -27,6 +27,28 @@ namespace Agenda.Tests.Integracao
     }
 
     [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Cadastrar_Um_Contato_Em_Um_Usuario_Inexistente()
+    {
+      var contato = new
+      {
+        nome = "Contato",
+        telefone = "11 45872534",
+        celular = "11 958742136",
+        email = "contato@live.com"
+      };
+
+      var usuarioId = Guid.NewGuid();
+
+      var retorno = await _api.PostAsync($"/usuarios/{usuarioId}/contatos", ConverterParaJSON<Object>(contato));
+      var erroEmJson = await retorno.Content.ReadAsStringAsync();
+      var erro = Converter<Dictionary<string, string>>(erroEmJson);
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.NotFound);
+      retorno.StatusCode.Should().Be(404);
+      erro["mensagem"].Should().Be("Usuário não encontrado(a)!");
+    }
+
+    [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Cadastrar_Um_Contato_Com_Email_Invalido()
     {
       var contato = new
@@ -157,7 +179,7 @@ namespace Agenda.Tests.Integracao
         email = "contato1@live.com"
       };
 
-      var retorno = await _api.PutAsync("/usuarios/8B2BB367-D6B1-479F-BCCB-D4E4962D8C88/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync("/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -173,7 +195,7 @@ namespace Agenda.Tests.Integracao
         email = "contato1@live.com"
       };
 
-      var retorno = await _api.PutAsync("/usuarios/8B2BB367-D6B1-479F-BCCB-D4E4962D8C88/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync("/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -189,7 +211,7 @@ namespace Agenda.Tests.Integracao
         email = "contato1@live.com"
       };
 
-      var retorno = await _api.PutAsync("/usuarios/8B2BB367-D6B1-479F-BCCB-D4E4962D8C88/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync("/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -205,7 +227,7 @@ namespace Agenda.Tests.Integracao
         email = "contato10@live.com"
       };
 
-      var retorno = await _api.PutAsync("/usuarios/8B2BB367-D6B1-479F-BCCB-D4E4962D8C88/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync("/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -222,7 +244,7 @@ namespace Agenda.Tests.Integracao
         email = "contato10@live.com"
       };
 
-      var retorno = await _api.PutAsync($"/usuarios/8B2BB367-D6B1-479F-BCCB-D4E4962D8C88/contatos/{id}", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync($"/contatos/{id}", ConverterParaJSON<Object>(contato));
       var erroEmJson = await retorno.Content.ReadAsStringAsync();
       var erro = Converter<Dictionary<string, string>>(erroEmJson);
 
@@ -242,7 +264,7 @@ namespace Agenda.Tests.Integracao
         email = "contato.com"
       };
 
-      var retorno = await _api.PutAsync("/usuarios/8B2BB367-D6B1-479F-BCCB-D4E4962D8C88/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync("/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
       var mensagem = await retorno.Content.ReadAsStringAsync();
 
       retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);

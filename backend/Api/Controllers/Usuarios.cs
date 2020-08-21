@@ -91,25 +91,15 @@ namespace Agenda.Api.Controllers
     {
       dadosContato.UsuarioId = usuarioId;
       var resposta = await _servicoContato.Salvar(dadosContato);
-      dadosContato.Id = resposta.Resultado.Id;
-
-      return Created($"/usuarios/{usuarioId}/contatos/{dadosContato.Id}", new { Id = dadosContato.Id });
-    }
-
-    [HttpPut("/usuarios/{usuarioId}/contatos/{contatoId}")]
-    public async Task<IActionResult> Put([FromBody] DTOs.Contato dadosContato, Guid contatoId, Guid usuarioId)
-    {
-      dadosContato.Id = contatoId;
-      dadosContato.UsuarioId = usuarioId;
-
-      var resposta = await _servicoContato.Salvar(dadosContato);
 
       if (resposta.TemErro())
       {
         return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
       }
 
-      return NoContent();
+      var id = resposta.Resultado.Id;
+
+      return Created($"/usuarios/{usuarioId}/contatos/{id}", new { Id = id });
     }
   }
 }

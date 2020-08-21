@@ -59,5 +59,20 @@ namespace Agenda.Api.Controllers
 
       return NoContent();
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put([FromBody] DTOs.Contato dadosContato, Guid id)
+    {
+      dadosContato.Id = id;
+
+      var resposta = await _servico.Atualizar(dadosContato);
+
+      if (resposta.TemErro())
+      {
+        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+      }
+
+      return NoContent();
+    }
   }
 }

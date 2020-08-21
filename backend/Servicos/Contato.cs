@@ -42,13 +42,13 @@ namespace Agenda.Servicos
     {
       var resposta = new Resposta<Modelos.Contato>();
 
-      if (TemId(dadosContato) && await ContatoNaoEncontrado(dadosContato.Id))
-        resposta.Erro = new ErroObjetoNaoEncontrado("Contato");
+      var usuario = await _usuarios.ObterPorId(dadosContato.UsuarioId);
+
+      if (usuario == null)
+        resposta.Erro = new ErroObjetoNaoEncontrado("Usuário");
 
       else
       {
-        var usuario = await _usuarios.ObterPorId(dadosContato.UsuarioId);
-
         var contato = new Fabricas.Contato().Nome(dadosContato.Nome)
                                             .Celular(dadosContato.Celular)
                                             .Telefone(dadosContato.Telefone)
@@ -77,7 +77,31 @@ namespace Agenda.Servicos
       return resposta;
     }
 
-    private bool TemId(DTOs.Contato dadosContato) => dadosContato.Id != Guid.Empty;
+    public async Task<Dominio.Servicos.Resposta<Modelos.Contato>> Atualizar(DTOs.Contato dadosContato)
+    {
+      var resposta = new Resposta<Modelos.Contato>();
+
+      var contatoEncontrado = await _contatos.ObterPorId(dadosContato.Id);
+
+      if (contatoEncontrado == null)
+        resposta.Erro = new ErroObjetoNaoEncontrado("Contato");
+
+      else
+      {
+        var contato = new Fabricas.Contato().Nome(dadosContato.Nome)
+                                            .Celular(dadosContato.Celular)
+                                            .Telefone(dadosContato.Telefone)
+                                            .Email(dadosContato.Email)
+                                            .Usuario(contatoEncontrado.Usuario)
+                                            .Id(dadosContato.Id)
+                                            .Criar();
+
+        contato.Id = await _contatos.Salvar(contato);
+        resposta.Resultado = contato;
+      }
+
+      return resposta;
+    }
 
     private async Task<bool> ContatoNaoEncontrado(Guid id) => await _contatos.ObterPorId(id) == null;
   }

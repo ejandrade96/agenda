@@ -19,6 +19,10 @@ namespace Agenda.Infraestrutura.Repositorios
     {
       var usuarios = await _dataset.Include(u => u.Contatos).ToListAsync();
 
+      // var usuario = await _dataset.FirstOrDefaultAsync(u => u.Id.Equals(id));
+
+      // return usuario;
+
       return usuarios.FirstOrDefault((u) => u.Id.Equals(id));
     }
   }
