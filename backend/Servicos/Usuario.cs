@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Agenda.Infraestrutura.Erros;
 using DTOs = Agenda.Dominio.DTOs;
@@ -20,8 +21,13 @@ namespace Agenda.Servicos
     {
       var resposta = new Resposta<Modelos.Usuario>();
 
-      if (await UsuarioNaoEncontrado(id))
+      var usuario = await _usuarios.ObterPorId(id);
+
+      if (usuario == null)
         resposta.Erro = new ErroObjetoNaoEncontrado("Usuário");
+
+      else if (ExisteContatosVinculados(usuario))
+        resposta.Erro = new ErroObjetosVinculados("usuário", "contatos");
 
       else
         await _usuarios.Deletar(id);
@@ -57,6 +63,6 @@ namespace Agenda.Servicos
       return id;
     }
 
-    private async Task<bool> UsuarioNaoEncontrado(Guid id) => await _usuarios.ObterPorId(id) == null;
+    private bool ExisteContatosVinculados(Modelos.Usuario usuario) => usuario.Contatos.Count() > 0;
   }
 }

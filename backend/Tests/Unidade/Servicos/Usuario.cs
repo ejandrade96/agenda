@@ -45,6 +45,24 @@ namespace Agenda.Tests.Unidade.Servicos
     }
 
     [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Deletar_Um_Usuario_Com_Contatos_Vinculados_A_Ele()
+    {
+      var usuario = new Modelos.Usuario("xpto", "123");
+
+      var contato = new Modelos.Contato("Contato", "11 985478521", "11 45873214", "contato@live.com", usuario);
+      usuario.AdicionarContato(contato);
+
+      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
+               .Returns(Task.FromResult(usuario));
+
+      var resposta = await _servico.Deletar(Guid.Parse("149944ca-6d46-4357-bcdc-bdeebbe66377"));
+
+      resposta.Erro.Mensagem.Should().Be("Não é possível deletar usuário contendo contatos vinculados.");
+      resposta.Erro.StatusCode.Should().Be(400);
+      resposta.Erro.GetType().Should().Be(typeof(ErroObjetosVinculados));
+    }
+
+    [Fact]
     public async Task Deve_Retornar_Um_Usuario_Por_Id()
     {
       var usuario = new Modelos.Usuario("usuario.xpto", "123456");

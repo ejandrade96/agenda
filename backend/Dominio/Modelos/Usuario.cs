@@ -18,6 +18,9 @@ namespace Agenda.Dominio.Modelos
     {
       Login = login;
       Senha = senha;
+      Contatos = new List<Contato>();
     }
+
+    public void AdicionarContato(Contato contato) => (Contatos as List<Contato>).Add(contato);
   }
 }

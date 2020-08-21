@@ -20,7 +20,7 @@ namespace Agenda.Tests.Integracao
         email = "contato@live.com"
       };
 
-      var retorno = await _api.PostAsync("/usuarios/8B2BB367-D6B1-479F-BCCB-D4E4962D8C88/contatos", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PostAsync("/usuarios/62e6210e-f8a4-4e3f-826a-015509ab4302/contatos", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.Created);
       retorno.Headers.Location.ToString().Contains("/usuarios/").Should().BeTrue();
@@ -179,7 +179,7 @@ namespace Agenda.Tests.Integracao
         email = "contato1@live.com"
       };
 
-      var retorno = await _api.PutAsync("/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -195,7 +195,7 @@ namespace Agenda.Tests.Integracao
         email = "contato1@live.com"
       };
 
-      var retorno = await _api.PutAsync("/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -211,7 +211,7 @@ namespace Agenda.Tests.Integracao
         email = "contato1@live.com"
       };
 
-      var retorno = await _api.PutAsync("/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -227,7 +227,7 @@ namespace Agenda.Tests.Integracao
         email = "contato10@live.com"
       };
 
-      var retorno = await _api.PutAsync("/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -264,7 +264,7 @@ namespace Agenda.Tests.Integracao
         email = "contato.com"
       };
 
-      var retorno = await _api.PutAsync("/contatos/356FF3E5-3B75-4481-AEBF-E673D40B88F7", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
       var mensagem = await retorno.Content.ReadAsStringAsync();
 
       retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);

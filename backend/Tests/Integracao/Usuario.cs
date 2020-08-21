@@ -83,5 +83,17 @@ namespace Agenda.Tests.Integracao
       retorno.StatusCode.Should().Be(404);
       erro["mensagem"].Should().Be("Usuário não encontrado(a)!");
     }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Deletar_Um_Usuario_Com_Contatos_Vinculados_A_Ele()
+    {
+      var retorno = await _api.DeleteAsync($"/usuarios/4337e5b1-138e-45c0-b6ac-3f1ebe3c133b");
+      var erroEmJson = await retorno.Content.ReadAsStringAsync();
+      var erro = Converter<Dictionary<string, string>>(erroEmJson);
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+      retorno.StatusCode.Should().Be(400);
+      erro["mensagem"].Should().Be("Não é possível deletar usuário contendo contatos vinculados.");
+    }
   }
 }
