@@ -111,7 +111,7 @@ namespace Agenda.Tests.Integracao
       var contato = Converter<Dictionary<string, string>>(contatoEmJson);
 
       retorno.StatusCode.Should().Be(HttpStatusCode.OK);
-      contato["nome"].Should().Be("Contato 1");
+      contato["nome"].Should().Be("Contato 1 (teste)");
       contato["telefone"].Should().Be("11 47549874");
       contato["celular"].Should().Be("11 985471254");
       contato["email"].Should().Be("contato1@live.com");

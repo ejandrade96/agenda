@@ -54,8 +54,7 @@ namespace Agenda.Tests.Integracao
       var usuario = Converter<Dictionary<string, object>>(usuarioEmJson);
 
       retorno.StatusCode.Should().Be(HttpStatusCode.OK);
-      usuario["login"].Should().Be("usuario.xpto");
-      usuario["contatos"].ToString().Should().NotBeNullOrWhiteSpace();
+      usuario["login"].Should().Be("usuario.xpto (teste)");
     }
 
     [Fact]
