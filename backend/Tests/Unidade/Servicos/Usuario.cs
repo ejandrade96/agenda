@@ -57,9 +57,9 @@ namespace Agenda.Tests.Unidade.Servicos
 
       var resposta = await _servico.Deletar(Guid.Parse("149944ca-6d46-4357-bcdc-bdeebbe66377"));
 
-      resposta.Erro.Mensagem.Should().Be("Não é possível deletar usuário contendo contatos vinculados.");
+      resposta.Erro.Mensagem.Should().Be("Erro! Este usuário possui contatos vinculados.");
       resposta.Erro.StatusCode.Should().Be(400);
-      resposta.Erro.GetType().Should().Be(typeof(ErroObjetosVinculados));
+      resposta.Erro.GetType().Should().Be(typeof(ErroObjetoPossuiObjetosVinculados));
     }
 
     [Fact]

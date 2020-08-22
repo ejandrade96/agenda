@@ -1,6 +1,7 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DTOs = Agenda.Dominio.DTOs;
@@ -15,10 +16,13 @@ namespace Agenda.Api.Controllers
 
     private readonly Dominio.Servicos.Contato _servicoContato;
 
-    public Usuarios(Dominio.Servicos.Usuario servico, Dominio.Servicos.Contato servicoContato)
+    private readonly IMapper _mapper;
+
+    public Usuarios(Dominio.Servicos.Usuario servico, Dominio.Servicos.Contato servicoContato, IMapper mapper)
     {
       _servico = servico;
       _servicoContato = servicoContato;
+      _mapper = mapper;
     }
 
     [HttpPost]
@@ -41,12 +45,7 @@ namespace Agenda.Api.Controllers
     {
       var usuarios = await _servico.Listar();
 
-      var dadosUsuarios = usuarios.Select((usuario) => new DTOs.Usuario
-      {
-        Id = usuario.Id,
-        Login = usuario.Login,
-        Contatos = usuario.Contatos
-      });
+      var dadosUsuarios = _mapper.Map<List<DTOs.Usuario>>(usuarios);
 
       return Ok(dadosUsuarios);
     }
@@ -61,14 +60,7 @@ namespace Agenda.Api.Controllers
         return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
       }
 
-      var usuario = resposta.Resultado;
-
-      var dadosUsuario = new DTOs.Usuario
-      {
-        Id = usuario.Id,
-        Login = usuario.Login,
-        Contatos = usuario.Contatos
-      };
+      var dadosUsuario = _mapper.Map<DTOs.Usuario>(resposta.Resultado);
 
       return Ok(dadosUsuario);
     }
@@ -100,6 +92,21 @@ namespace Agenda.Api.Controllers
       var id = resposta.Resultado.Id;
 
       return Created($"/usuarios/{usuarioId}/contatos/{id}", new { Id = id });
+    }
+
+    [HttpGet("/usuarios/{usuarioId}/contatos")]
+    public async Task<IActionResult> GetByUserId(Guid usuarioId)
+    {
+      var resposta = await _servicoContato.ListarPorUsuarioId(usuarioId);
+
+      if (resposta.TemErro())
+      {
+        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+      }
+
+      var contatos = _mapper.Map<List<DTOs.Contato>>(resposta.Resultado);
+
+      return Ok(contatos);
     }
   }
 }

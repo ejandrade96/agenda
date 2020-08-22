@@ -27,7 +27,7 @@ namespace Agenda.Servicos
         resposta.Erro = new ErroObjetoNaoEncontrado("Usuário");
 
       else if (ExisteContatosVinculados(usuario))
-        resposta.Erro = new ErroObjetosVinculados("usuário", "contatos");
+        resposta.Erro = new ErroObjetoPossuiObjetosVinculados("usuário", "contatos");
 
       else
         await _usuarios.Deletar(id);

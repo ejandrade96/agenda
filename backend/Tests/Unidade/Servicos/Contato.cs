@@ -7,6 +7,8 @@ using Modelos = Agenda.Dominio.Modelos;
 using System;
 using FluentAssertions;
 using Agenda.Infraestrutura.Erros;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Agenda.Tests.Unidade.Servicos
 {
@@ -179,6 +181,55 @@ namespace Agenda.Tests.Unidade.Servicos
       resposta.Erro.Mensagem.Should().Be("Contato não encontrado(a)!");
       resposta.Erro.StatusCode.Should().Be(404);
       resposta.Erro.GetType().Should().Be(typeof(ErroObjetoNaoEncontrado));
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Todos_Os_Contatos_De_Um_Usuario()
+    {
+      var usuario = new Modelos.Usuario("usuario", "123");
+      var contato = new Modelos.Contato("Contato", "11 985478521", "11 45873214", "contato@live.com", usuario);
+      usuario.AdicionarContato(contato);
+
+      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
+               .Returns(Task.FromResult(usuario));
+
+      var resposta = await _servico.ListarPorUsuarioId(Guid.Parse("4337e5b1-138e-45c0-b6ac-3f1ebe3c133b"));
+
+      var contatos = resposta.Resultado;
+
+      contatos.Should().HaveCountGreaterThan(0);
+      contatos.ForEach((contato) =>
+      {
+        contato.GetType().GetProperty("Id").Should().NotBeNull();
+        contato.GetType().GetProperty("Nome").Should().NotBeNull();
+        contato.GetType().GetProperty("Telefone").Should().NotBeNull();
+        contato.GetType().GetProperty("Celular").Should().NotBeNull();
+        contato.GetType().GetProperty("Email").Should().NotBeNull();
+      });
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Todos_Os_Contatos_De_Um_Usuario_Inexistente()
+    {
+      var usuarioId = Guid.NewGuid();
+      var resposta = await _servico.ListarPorUsuarioId(usuarioId);
+
+      resposta.Erro.Mensagem.Should().Be("Usuário não encontrado(a)!");
+      resposta.Erro.StatusCode.Should().Be(404);
+      resposta.Erro.GetType().Should().Be(typeof(ErroObjetoNaoEncontrado));
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Todos_Os_Contatos_De_Um_Usuario_Que_Nao_Possui_Contatos()
+    {
+      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
+               .Returns(Task.FromResult(new Modelos.Usuario("", "")));
+
+      var resposta = await _servico.ListarPorUsuarioId(Guid.Parse("4337e5b1-138e-45c0-b6ac-3f1ebe3c133b"));
+
+      resposta.Erro.Mensagem.Should().Be("Este usuário não possui contatos.");
+      resposta.Erro.StatusCode.Should().Be(400);
+      resposta.Erro.GetType().Should().Be(typeof(ErroObjetoNaoPossuiObjetosVinculados));
     }
   }
 }

@@ -93,7 +93,7 @@ namespace Agenda.Tests.Integracao
 
       retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
       retorno.StatusCode.Should().Be(400);
-      erro["mensagem"].Should().Be("Não é possível deletar usuário contendo contatos vinculados.");
+      erro["mensagem"].Should().Be("Erro! Este usuário possui contatos vinculados.");
     }
   }
 }

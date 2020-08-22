@@ -6,6 +6,7 @@ using Fabricas = Agenda.Dominio.Fabricas;
 using Agenda.Dominio.Repositorios;
 using Agenda.Infraestrutura.Erros;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Agenda.Servicos
 {
@@ -99,6 +100,27 @@ namespace Agenda.Servicos
         contato.Id = await _contatos.Salvar(contato);
         resposta.Resultado = contato;
       }
+
+      return resposta;
+    }
+
+    public async Task<Dominio.Servicos.Resposta<List<Modelos.Contato>>> ListarPorUsuarioId(Guid usuarioId)
+    {
+      var resposta = new Resposta<List<Modelos.Contato>>();
+
+      var usuario = await _usuarios.ObterPorId(usuarioId);
+
+      if (usuario == null)
+      {
+        resposta.Erro = new ErroObjetoNaoEncontrado("Usuário");
+        return resposta;
+      }
+
+      if (usuario.Contatos == null || usuario.Contatos.Count().Equals(0))
+        resposta.Erro = new ErroObjetoNaoPossuiObjetosVinculados("usuário", "contatos");
+
+      else
+        resposta.Resultado = usuario.Contatos.ToList();
 
       return resposta;
     }

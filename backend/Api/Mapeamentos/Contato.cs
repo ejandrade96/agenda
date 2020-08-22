@@ -8,7 +8,9 @@ namespace Agenda.Api.Mapeamentos
   {
     public Contato()
     {
-      CreateMap<DTOs.Contato, Modelos.Contato>().ReverseMap();
+      CreateMap<Modelos.Contato, DTOs.Contato>()
+      .ForMember(dest => dest.UsuarioId, opt => opt.MapFrom(src => src.Usuario.Id))
+      .ReverseMap();
     }
   }
 }

@@ -150,6 +150,50 @@ namespace Agenda.Tests.Integracao
     }
 
     [Fact]
+    public async Task Deve_Retornar_Todos_Os_Contatos_De_Um_Usuario()
+    {
+      var retorno = await _api.GetAsync("/usuarios/4337e5b1-138e-45c0-b6ac-3f1ebe3c133b/contatos");
+      var contatosEmJson = await retorno.Content.ReadAsStringAsync();
+      var contatos = Converter<List<Dictionary<string, object>>>(contatosEmJson);
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.OK);
+      contatos.Should().HaveCountGreaterThan(0);
+      contatos.ForEach((contato) =>
+      {
+        contato.Should().ContainKey("id");
+        contato.Should().ContainKey("nome");
+        contato.Should().ContainKey("telefone");
+        contato.Should().ContainKey("celular");
+        contato.Should().ContainKey("email");
+      });
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Todos_Os_Contatos_De_Um_Usuario_Inexistente()
+    {
+      var usuarioId = Guid.NewGuid();
+      var retorno = await _api.GetAsync($"/usuarios/{usuarioId}/contatos");
+      var erroEmJson = await retorno.Content.ReadAsStringAsync();
+      var erro = Converter<Dictionary<string, string>>(erroEmJson);
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.NotFound);
+      retorno.StatusCode.Should().Be(404);
+      erro["mensagem"].Should().Be("Usuário não encontrado(a)!");
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Todos_Os_Contatos_De_Um_Usuario_Que_Nao_Possui_Contatos()
+    {
+      var retorno = await _api.GetAsync($"/usuarios/5d8f714c-9e87-476e-a475-c420dbe807ff/contatos");
+      var erroEmJson = await retorno.Content.ReadAsStringAsync();
+      var erro = Converter<Dictionary<string, string>>(erroEmJson);
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+      retorno.StatusCode.Should().Be(400);
+      erro["mensagem"].Should().Be("Este usuário não possui contatos.");
+    }
+
+    [Fact]
     public async Task Deve_Retornar_Contatos_Quando_Buscar_Por_Nome()
     {
       var retorno = await _api.GetAsync("/contatos?nome=ato 1");
