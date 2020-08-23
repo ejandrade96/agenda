@@ -9,5 +9,7 @@ namespace Agenda.Dominio.Repositorios
     Task<List<Modelos.Usuario>> Listar();
 
     Task<Modelos.Usuario> ObterPorId(Guid id);
+
+    Task<Modelos.Usuario> ObterPorLogin(string login);
   }
 }

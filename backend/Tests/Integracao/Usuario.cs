@@ -13,8 +13,9 @@ namespace Agenda.Tests.Integracao
     public async Task Deve_Cadastrar_Um_Usuario_Quando_Enviar_Dados_Certos()
     {
       var dadosUsuario = new Dictionary<string, string>();
-      dadosUsuario.Add("login", "xpto.usuario");
+      dadosUsuario.Add("login", "usuario.xpto");
       dadosUsuario.Add("senha", "123456");
+      dadosUsuario.Add("nome", "usuário nome");
 
       var retorno = await _api.PostAsync("/usuarios", CodificarUrl(dadosUsuario));
       var usuarioEmJson = await retorno.Content.ReadAsStringAsync();
@@ -23,6 +24,106 @@ namespace Agenda.Tests.Integracao
       retorno.StatusCode.Should().Be(HttpStatusCode.Created);
       retorno.Headers.Location.ToString().Contains("/usuarios/").Should().BeTrue();
       usuario["id"].Should().NotBeNullOrWhiteSpace();
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Cadastrar_Um_Usuario_Com_Campo_Login_Em_Branco()
+    {
+      var dadosUsuario = new Dictionary<string, string>();
+      dadosUsuario.Add("login", "    ");
+      dadosUsuario.Add("senha", "123456");
+      dadosUsuario.Add("nome", "usuário nome");
+
+      var retorno = await _api.PostAsync("/usuarios", CodificarUrl(dadosUsuario));
+      var mensagem = await retorno.Content.ReadAsStringAsync();
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+      retorno.StatusCode.Should().Be(400);
+      mensagem.Should().Contain("Favor preencher o campo login.");
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Cadastrar_Um_Usuario_Com_Campo_Nome_Em_Branco()
+    {
+      var dadosUsuario = new Dictionary<string, string>();
+      dadosUsuario.Add("login", "usuario.xpto");
+      dadosUsuario.Add("senha", "123456");
+      dadosUsuario.Add("nome", "   ");
+
+      var retorno = await _api.PostAsync("/usuarios", CodificarUrl(dadosUsuario));
+      var mensagem = await retorno.Content.ReadAsStringAsync();
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+      retorno.StatusCode.Should().Be(400);
+      mensagem.Should().Contain("Favor preencher o campo nome.");
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Cadastrar_Um_Usuario_Com_Campo_Senha_Em_Branco()
+    {
+      var dadosUsuario = new Dictionary<string, string>();
+      dadosUsuario.Add("login", "usuario.xpto");
+      dadosUsuario.Add("senha", "  ");
+      dadosUsuario.Add("nome", "usuário nome");
+
+      var retorno = await _api.PostAsync("/usuarios", CodificarUrl(dadosUsuario));
+      var mensagem = await retorno.Content.ReadAsStringAsync();
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+      retorno.StatusCode.Should().Be(400);
+      mensagem.Should().Contain("Favor preencher o campo senha.");
+    }
+
+
+    [Fact]
+    public async Task Deve_Autenticar_Um_Usuario()
+    {
+      var dadosUsuario = new Dictionary<string, string>();
+      dadosUsuario.Add("login", "usuario.xpto (teste)");
+      dadosUsuario.Add("senha", "123456789");
+
+      var retorno = await _api.PostAsync("/login", CodificarUrl(dadosUsuario));
+      var usuarioEmJson = await retorno.Content.ReadAsStringAsync();
+      var usuario = Converter<Dictionary<string, string>>(usuarioEmJson);
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.OK);
+      usuario["id"].Should().NotBe(Guid.Empty.ToString());
+      usuario["login"].Should().Be("usuario.xpto (teste)");
+      usuario["nome"].Should().Be("usuário nome");
+      usuario.ContainsKey("token");
+      usuario["token"].Should().NotBeNullOrWhiteSpace();
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Autenticar_Um_Usuario_Com_Senha_Invalida()
+    {
+      var dadosUsuario = new Dictionary<string, string>();
+      dadosUsuario.Add("login", "usuario.xpto (teste)");
+      dadosUsuario.Add("senha", "754sdaw");
+
+      var retorno = await _api.PostAsync("/login", CodificarUrl(dadosUsuario));
+      var erroEmJson = await retorno.Content.ReadAsStringAsync();
+      var erro = Converter<Dictionary<string, string>>(erroEmJson);
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+      retorno.StatusCode.Should().Be(400);
+      erro["mensagem"].Should().Be("Senha inválido(a)!");
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Autenticar_Um_Usuario_Inexistente()
+    {
+      var dadosUsuario = new Dictionary<string, string>();
+      dadosUsuario.Add("login", "usuario");
+      dadosUsuario.Add("senha", "754sdaw");
+
+      var retorno = await _api.PostAsync("/login", CodificarUrl(dadosUsuario));
+      var erroEmJson = await retorno.Content.ReadAsStringAsync();
+      var erro = Converter<Dictionary<string, string>>(erroEmJson);
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+      retorno.StatusCode.Should().Be(400);
+      erro["mensagem"].Should().Be("Login inválido(a)!");
     }
 
     [Fact]
@@ -38,11 +139,11 @@ namespace Agenda.Tests.Integracao
       {
         usuario.Should().ContainKey("id");
         usuario.Should().ContainKey("login");
-        usuario.Should().ContainKey("senha");
+        usuario.Should().ContainKey("nome");
         usuario.Should().ContainKey("contatos");
         usuario["id"].ToString().Should().NotBeNullOrWhiteSpace();
         usuario["login"].ToString().Should().NotBeNullOrWhiteSpace();
-        usuario["contatos"].ToString().Should().NotBeNullOrWhiteSpace();
+        usuario["nome"].ToString().Should().NotBeNullOrWhiteSpace();
       });
     }
 
@@ -55,6 +156,8 @@ namespace Agenda.Tests.Integracao
 
       retorno.StatusCode.Should().Be(HttpStatusCode.OK);
       usuario["login"].Should().Be("usuario.xpto (teste)");
+      usuario["nome"].Should().Be("usuário nome");
+      usuario.ContainsKey("token");
     }
 
     [Fact]

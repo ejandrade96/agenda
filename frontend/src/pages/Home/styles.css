@@ -1,30 +1,55 @@
-.home-container .content header h1 {
+.home-container header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
 }
 
-.home-container .content body {
+header span {
+  font-size: 20px;
+  margin-left: 2px;
+}
+
+.btn-top-nav {
+  outline: none;
+  height: 40px;
+  margin-top: 0;
+
+  border: 1px solid silver;
+  border-radius: 8px;
+  display: inline-block;
+
+  background-color: #f0f0f5;
+  color: rgb(34, 17, 143);
+  font-weight: 700;
+
+  text-align: center;
+  font-size: 17px;
+  line-height: 38px;
+  transition: filter 0.2s;
+}
+
+.btn-top-nav:hover {
+  filter: brightness(90%);
+}
+
+header button {
+  width: 4%;
+  margin-left: 2px;
+  cursor: pointer;
+}
+
+header a {
+  width: 18%;
+  margin-left: auto;
+  text-decoration: none;
+}
+
+.home-container .content {
   background: #f0f0f5;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
 }
 
-.home-container .content body form input {
-  width: 100vw;
-  margin-top: 8px;
-  font: 400 15px sans-serif;
-
-  height: 38px;
-  color: #333;
-  border: 1px solid silver;
-  border-radius: 8px;
-
-  background: #f0f0f5;
-  box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
-}
-
-.home-container .content body form input:focus {
-  outline: none;
-}
-
-.home-container .content body .table-contatos {
+.home-container .content .table-contatos {
   width: 100vw;
   border-collapse: collapse;
   margin: 25px 0;
@@ -34,28 +59,28 @@
   min-width: 400px;
 }
 
-.home-container .content body .table-contatos thead tr {
+.home-container .content .table-contatos thead tr {
   border-top: 1.5px solid silver;
   border-bottom: 1px solid silver;
   text-align: left;
   font-size: bold;
 }
 
-.home-container .content body .table-contatos th,
-.home-container .content body .table-contatos td {
+.home-container .content .table-contatos th,
+.home-container .content .table-contatos td {
   padding: 8px 12px;
   text-align: left;
 }
 
-.home-container .content body .table-contatos tbody tr {
+.home-container .content .table-contatos tbody tr {
   border-bottom: 1px solid silver;
 }
 
-.home-container .content body .table-contatos tbody tr .button-action {
+.home-container .content .table-contatos tbody tr .button-action {
   margin-right: 4px;
   cursor: pointer;
 }
 
-.home-container .content body .table-contatos tbody tr .button-action:hover {
+.home-container .content .table-contatos tbody tr .button-action:hover {
   filter: brightness(100%);
 }

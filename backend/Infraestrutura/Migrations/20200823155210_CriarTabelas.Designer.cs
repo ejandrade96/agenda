@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestrutura.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20200819122528_InserirDadosNaTabelaUsuarios")]
-    partial class InserirDadosNaTabelaUsuarios
+    [Migration("20200823155210_CriarTabelas")]
+    partial class CriarTabelas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,9 +54,18 @@ namespace Infraestrutura.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Token")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

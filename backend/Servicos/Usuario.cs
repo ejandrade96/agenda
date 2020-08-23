@@ -17,6 +17,42 @@ namespace Agenda.Servicos
       _usuarios = usuarios;
     }
 
+    public async Task<Dominio.Servicos.Resposta<DTOs.Usuario>> Autenticar(DTOs.Usuario dadosUsuario)
+    {
+      var resposta = new Resposta<DTOs.Usuario>();
+      var senha = new Modelos.Senha();
+
+      var usuario = await _usuarios.ObterPorLogin(dadosUsuario.Login);
+
+      if (usuario == null)
+      {
+        resposta.Erro = new ErroAtributoInvalido("Login");
+        return resposta;
+      }
+
+      bool senhaEhValida = senha.Validar(usuario.Senha, dadosUsuario.Senha);
+
+      if (senhaEhValida)
+      {
+        usuario.AdicionarToken(Guid.NewGuid().ToString());
+
+        await _usuarios.Salvar(usuario);
+
+        resposta.Resultado = new DTOs.Usuario
+        {
+          Id = usuario.Id,
+          Login = usuario.Login,
+          Token = usuario.Token,
+          Nome = usuario.Nome
+        };
+      }
+
+      else
+        resposta.Erro = new ErroAtributoInvalido("Senha");
+
+      return resposta;
+    }
+
     public async Task<Dominio.Servicos.Resposta<Modelos.Usuario>> Deletar(Guid id)
     {
       var resposta = new Resposta<Modelos.Usuario>();
@@ -56,7 +92,7 @@ namespace Agenda.Servicos
     {
       var senha = new Modelos.Senha();
 
-      var usuario = new Modelos.Usuario(dadosUsuario.Login, senha.GerarHash(dadosUsuario.Senha));
+      var usuario = new Modelos.Usuario(dadosUsuario.Login, senha.GerarHash(dadosUsuario.Senha), dadosUsuario.Nome);
 
       var id = await _usuarios.Salvar(usuario);
 

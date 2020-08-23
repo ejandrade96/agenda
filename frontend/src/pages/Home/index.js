@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { FiTrash2, FiEdit } from "react-icons/fi";
+import { FiTrash2, FiEdit, FiPower } from "react-icons/fi";
 
 import "./styles.css";
 
 import api from "../../services/api";
 
 export default function Home() {
+  const usuarioNome = localStorage.getItem("usuarioNome");
+  const usuarioId = localStorage.getItem("usuarioId");
   const [inputBusca, setInputBusca] = useState("");
   const [contatos, setContatos] = useState([]);
 
   const history = useHistory();
 
+  // setContatos(
+  //   contatos.filter((contato) =>
+  //     contato.nome.toLowerCase().includes(inputBusca.toLowerCase())
+  //   )
+  // );
+
   useEffect(() => {
-    api.get("contatos").then((response) => {
-      setContatos(
-        response.data.filter(
-          (contato) =>
-            contato.nome.toLowerCase().includes(inputBusca.toLowerCase()) &&
-            contato.email !== "contato1@live.com"
-        )
-      );
+    api.get(`usuarios/${usuarioId}/contatos`).then((response) => {
+      setContatos(response.data);
     });
-  }, [inputBusca]);
+  }, [usuarioId]);
 
   async function handleDelete(id) {
     try {
@@ -36,69 +38,78 @@ export default function Home() {
     }
   }
 
+  function handleSair() {
+    localStorage.clear();
+
+    history.push("/login");
+  }
+
   const handleEdit = (id, objeto) => history.push(`/editar/${id}`, objeto);
 
   const handleChange = (evento) => setInputBusca(evento.target.value);
 
   return (
     <div className="home-container">
+      <header>
+        <span>
+          Olá, <strong>{usuarioNome}</strong>!
+        </span>
+        <Link className="btn-top-nav" to="/salvar/contato">
+          Cadastrar Novo Contato
+        </Link>
+
+        <button onClick={handleSair} className="btn-top-nav" type="button">
+          <FiPower size={16} />
+        </button>
+      </header>
+
       <div className="content">
-        <header>
-          <h1>Contatos</h1>
-        </header>
+        <div>
+          <form>
+            <input placeholder="Procurar" onChange={handleChange} />
+          </form>
+        </div>
 
-        <body>
-          <Link className="link" to="/salvar">
-            Criar Novo Contato
-          </Link>
+        <table className="table-contatos">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Celular</th>
+              <th>Email</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
 
-          <div>
-            <form>
-              <input placeholder="Procurar" onChange={handleChange} />
-            </form>
-          </div>
-
-          <table className="table-contatos">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Nome</th>
-                <th>Telefone</th>
-                <th>Celular</th>
-                <th>Email</th>
-                <th>Ações</th>
+          <tbody>
+            {contatos.map((contato) => (
+              <tr key={contato.id}>
+                <td></td>
+                <td>{contato.nome}</td>
+                <td>{contato.telefone}</td>
+                <td>{contato.celular}</td>
+                <td>{contato.email}</td>
+                <td>
+                  <button
+                    type="button"
+                    className="button-action"
+                    onClick={() => handleEdit(contato.id, contato)}
+                  >
+                    <FiEdit />
+                  </button>
+                  <button
+                    type="button"
+                    className="button-action"
+                    onClick={() => handleDelete(contato.id)}
+                  >
+                    <FiTrash2 />
+                  </button>
+                </td>
               </tr>
-            </thead>
-
-            <tbody>
-              {contatos.map((contato) => (
-                <tr key={contato.id}>
-                  <td></td>
-                  <td>{contato.nome}</td>
-                  <td>{contato.telefone}</td>
-                  <td>{contato.celular}</td>
-                  <td>{contato.email}</td>
-                  <td>
-                    <button
-                      type="button"
-                      className="button-action"
-                      onClick={() => handleEdit(contato.id, contato)}
-                    >
-                      <FiEdit />
-                    </button>
-                    <button
-                      type="button"
-                      className="button-action"
-                      onClick={() => handleDelete(contato.id)}
-                    >
-                      <FiTrash2 />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </body>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

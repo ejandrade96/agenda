@@ -29,15 +29,46 @@ namespace Agenda.Api.Controllers
     [Consumes("application/x-www-form-urlencoded")]
     public async Task<IActionResult> Post([FromForm] IFormCollection usuario)
     {
+      if (string.IsNullOrWhiteSpace(usuario["nome"]))
+        return BadRequest("Favor preencher o campo nome.");
+
+      else if (string.IsNullOrWhiteSpace(usuario["login"]))
+        return BadRequest("Favor preencher o campo login.");
+
+      else if (string.IsNullOrWhiteSpace(usuario["senha"]))
+        return BadRequest("Favor preencher o campo senha.");
+
+      var dadosUsuario = new DTOs.Usuario()
+      {
+        Login = usuario["login"],
+        Senha = usuario["senha"],
+        Nome = usuario["nome"]
+      };
+
+      var id = await _servico.Salvar(dadosUsuario);
+
+      return Created($"/usuarios/{id}", new { Id = id });
+    }
+
+    [HttpPost]
+    [Consumes("application/x-www-form-urlencoded")]
+    [Route("/login")]
+    public async Task<IActionResult> Login([FromForm] IFormCollection usuario)
+    {
       var dadosUsuario = new DTOs.Usuario()
       {
         Login = usuario["login"],
         Senha = usuario["senha"]
       };
 
-      var id = await _servico.Salvar(dadosUsuario);
+      var resposta = await _servico.Autenticar(dadosUsuario);
 
-      return Created($"/usuarios/{id}", new { Id = id });
+      if (resposta.TemErro())
+      {
+        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+      }
+
+      return Ok(resposta.Resultado);
     }
 
     [HttpGet]

@@ -25,5 +25,7 @@ namespace Agenda.Infraestrutura.Repositorios
 
       return usuarios.FirstOrDefault((u) => u.Id.Equals(id));
     }
+
+    public Task<Usuario> ObterPorLogin(string login) => Task.FromResult(_dataset.FirstOrDefault((u) => u.Login.Equals(login)));
   }
 }

@@ -13,5 +13,7 @@ namespace Agenda.Dominio.Servicos
     Task<Resposta<Modelos.Usuario>> ObterPorId(Guid id);
 
     Task<Resposta<Modelos.Usuario>> Deletar(Guid id);
+
+    Task<Resposta<DTOs.Usuario>> Autenticar(DTOs.Usuario dadosUsuario);
   }
 }

@@ -5,7 +5,8 @@ import { FiArrowLeft } from "react-icons/fi";
 import api from "../../services/api";
 import "./styles.css";
 
-export default function Salvar(props) {
+export default function SalvarContato(props) {
+  const usuarioId = localStorage.getItem("usuarioId");
   const estado = props.location.state;
   const contatoId = props.match.params["contatoId"];
 
@@ -39,12 +40,15 @@ export default function Salvar(props) {
 
         alert("Contato atualizado com sucesso!");
       } else {
-        const resposta = await api.post("contatos", dados);
+        const resposta = await api.post(
+          `usuarios/${usuarioId}/contatos`,
+          dados
+        );
 
         alert(`Seu ID de acesso: ${resposta.data.id}`);
       }
 
-      history.push("/");
+      history.push("/home");
     } catch (erro) {
       const erroTelefone = erro.response.data.errors.Telefone
         ? erro.response.data.errors.Telefone[0]
@@ -58,46 +62,52 @@ export default function Salvar(props) {
         ? erro.response.data.errors.Email[0]
         : "";
 
-      alert(`${erroTelefone} ${erroCelular} ${erroEmail}`);
-      history.push("/");
+      const erroNome = erro.response.data.errors.Nome
+        ? erro.response.data.errors.Nome[0]
+        : "";
+
+      alert(`
+      ${erroNome}
+      ${erroTelefone}
+      ${erroCelular} 
+      ${erroEmail} `);
+      history.push("/home");
     }
   }
 
   return (
-    <div className="salvar-container">
+    <div className="salvar-contato-container">
       <div className="content">
-        <body>
-          <Link className="link" to="/">
-            <FiArrowLeft size={16} color="#483d8b" />
-            Retornar
-          </Link>
+        <Link className="link" to="/home">
+          <FiArrowLeft size={16} color="#483d8b" />
+          Retornar
+        </Link>
 
-          <form onSubmit={handleSalvar}>
-            <input
-              placeholder="Nome"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-            />
-            <input
-              placeholder="Telefone"
-              value={telefone}
-              onChange={(e) => setTelefone(e.target.value)}
-            />
-            <input
-              placeholder="Celular"
-              value={celular}
-              onChange={(e) => setCelular(e.target.value)}
-            />
-            <input
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button className="button" type="submit">
-              Salvar
-            </button>
-          </form>
-        </body>
+        <form onSubmit={handleSalvar}>
+          <input
+            placeholder="Nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+          <input
+            placeholder="DDD Telefone"
+            value={telefone}
+            onChange={(e) => setTelefone(e.target.value)}
+          />
+          <input
+            placeholder="DDD Celular"
+            value={celular}
+            onChange={(e) => setCelular(e.target.value)}
+          />
+          <input
+            placeholder="E-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button className="button" type="submit">
+            Salvar
+          </button>
+        </form>
       </div>
     </div>
   );

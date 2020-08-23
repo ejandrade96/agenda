@@ -7,8 +7,6 @@ using Modelos = Agenda.Dominio.Modelos;
 using System;
 using FluentAssertions;
 using Agenda.Infraestrutura.Erros;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace Agenda.Tests.Unidade.Servicos
 {
@@ -40,7 +38,7 @@ namespace Agenda.Tests.Unidade.Servicos
       };
 
       _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
-               .Returns(Task.FromResult(new Modelos.Usuario("", "")));
+               .Returns(Task.FromResult(new Modelos.Usuario("", "", "")));
 
       _contatos.Setup(repositorio => repositorio.Salvar(It.IsAny<Modelos.Contato>()))
                .Returns(Task.FromResult(Guid.NewGuid()));
@@ -78,7 +76,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Retornar_Um_Contato_Por_Id()
     {
-      var usuario = new Modelos.Usuario("", "");
+      var usuario = new Modelos.Usuario("", "", "");
 
       var contato = new Modelos.Contato(
         "Contato",
@@ -114,7 +112,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Atualizar_Um_Contato()
     {
-      var usuario = new Modelos.Usuario("usuario", "123");
+      var usuario = new Modelos.Usuario("usuario", "123", "usuário nome");
 
       var contato = new DTOs.Contato
       {
@@ -155,7 +153,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Deletar_Um_Contato()
     {
-      var usuario = new Modelos.Usuario("", "");
+      var usuario = new Modelos.Usuario("", "", "");
 
       var contato = new Modelos.Contato(
         "Contato",
@@ -186,7 +184,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Retornar_Todos_Os_Contatos_De_Um_Usuario()
     {
-      var usuario = new Modelos.Usuario("usuario", "123");
+      var usuario = new Modelos.Usuario("usuario", "123", "usuário nome");
       var contato = new Modelos.Contato("Contato", "11 985478521", "11 45873214", "contato@live.com", usuario);
       usuario.AdicionarContato(contato);
 
@@ -223,7 +221,7 @@ namespace Agenda.Tests.Unidade.Servicos
     public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Todos_Os_Contatos_De_Um_Usuario_Que_Nao_Possui_Contatos()
     {
       _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
-               .Returns(Task.FromResult(new Modelos.Usuario("", "")));
+               .Returns(Task.FromResult(new Modelos.Usuario("", "", "")));
 
       var resposta = await _servico.ListarPorUsuarioId(Guid.Parse("4337e5b1-138e-45c0-b6ac-3f1ebe3c133b"));
 

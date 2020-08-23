@@ -24,7 +24,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Deletar_Um_Usuario()
     {
-      var usuario = new Modelos.Usuario("", "");
+      var usuario = new Modelos.Usuario("", "", "");
 
       _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
                .Returns(Task.FromResult(usuario));
@@ -47,7 +47,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Deletar_Um_Usuario_Com_Contatos_Vinculados_A_Ele()
     {
-      var usuario = new Modelos.Usuario("xpto", "123");
+      var usuario = new Modelos.Usuario("xpto", "123", "usuario nome");
 
       var contato = new Modelos.Contato("Contato", "11 985478521", "11 45873214", "contato@live.com", usuario);
       usuario.AdicionarContato(contato);
@@ -65,7 +65,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Retornar_Um_Usuario_Por_Id()
     {
-      var usuario = new Modelos.Usuario("usuario.xpto", "123456");
+      var usuario = new Modelos.Usuario("usuario.xpto", "123456", "usuário nome");
 
       _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
                .Returns(Task.FromResult(usuario));
@@ -75,6 +75,7 @@ namespace Agenda.Tests.Unidade.Servicos
       var usuarioEncontrado = resposta.Resultado;
 
       usuarioEncontrado.Login.Should().Be("usuario.xpto");
+      usuarioEncontrado.Nome.Should().Be("usuário nome");
       usuarioEncontrado.Senha.Should().Be("123456");
     }
 

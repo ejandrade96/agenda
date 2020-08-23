@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infraestrutura.Migrations
+namespace Agenda.Infraestrutura.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20200819122610_InserirDadosNaTabelaContatos")]
+    [Migration("20200823155705_InserirDadosNaTabelaContatos")]
     partial class InserirDadosNaTabelaContatos
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,9 +54,18 @@ namespace Infraestrutura.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Token")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

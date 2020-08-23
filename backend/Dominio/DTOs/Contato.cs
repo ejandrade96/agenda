@@ -7,6 +7,7 @@ namespace Agenda.Dominio.DTOs
   public struct Contato
   {
     [JsonProperty("nome")]
+    [Required(ErrorMessage = "Favor preencher o nome.", AllowEmptyStrings = false)]
     public string Nome { get; set; }
 
     [MinLength(10, ErrorMessage = "Telefone inválido!")]

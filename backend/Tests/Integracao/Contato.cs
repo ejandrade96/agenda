@@ -20,7 +20,7 @@ namespace Agenda.Tests.Integracao
         email = "contato@live.com"
       };
 
-      var retorno = await _api.PostAsync("/usuarios/62e6210e-f8a4-4e3f-826a-015509ab4302/contatos", ConverterParaJSON<Object>(contato));
+      var retorno = await _api.PostAsync("/usuarios/B1ACBCDE-D53C-4D89-9F94-B2316694703F/contatos", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.Created);
       retorno.Headers.Location.ToString().Contains("/usuarios/").Should().BeTrue();
@@ -101,6 +101,24 @@ namespace Agenda.Tests.Integracao
 
       retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
       mensagem.Should().Contain("Celular inválido!");
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Cadastrar_Um_Contato_Com_Nome_Em_Branco()
+    {
+      var contato = new
+      {
+        nome = " ",
+        telefone = "11 45872534",
+        celular = "11 45ds24",
+        email = "contato@live.com"
+      };
+
+      var retorno = await _api.PostAsync("/usuarios/4337e5b1-138e-45c0-b6ac-3f1ebe3c133b/contatos", ConverterParaJSON<Object>(contato));
+      var mensagem = await retorno.Content.ReadAsStringAsync();
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+      mensagem.Should().Contain("Favor preencher o nome.");
     }
 
     [Fact]

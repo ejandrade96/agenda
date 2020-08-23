@@ -11,8 +11,10 @@ namespace Agenda.Infraestrutura.Mapeamentos
       builder.ToTable("Usuarios");
 
       builder.HasKey(usuario => usuario.Id);
-      builder.Property(usuario => usuario.Login);
-      builder.Property(usuario => usuario.Senha);
+      builder.Property(usuario => usuario.Login).IsRequired();
+      builder.Property(usuario => usuario.Senha).IsRequired();
+      builder.Property(usuario => usuario.Nome).IsRequired();
+      builder.Property(usuario => usuario.Token);
       builder.HasMany(usuario => usuario.Contatos);
     }
   }

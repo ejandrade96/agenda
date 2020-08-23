@@ -12,8 +12,10 @@ namespace Infraestrutura.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Login = table.Column<string>(nullable: true),
-                    Senha = table.Column<string>(nullable: true)
+                    Login = table.Column<string>(nullable: false),
+                    Senha = table.Column<string>(nullable: false),
+                    Token = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
