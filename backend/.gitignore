@@ -434,3 +434,5 @@ $RECYCLE.BIN/
 
 *.db
 *.db3
+*.db-shm
+*.db-wal
