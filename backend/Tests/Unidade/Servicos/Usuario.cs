@@ -2,6 +2,7 @@ using Agenda.Dominio.Repositorios;
 using Moq;
 using Xunit;
 using Modelos = Agenda.Dominio.Modelos;
+using DTOs = Agenda.Dominio.DTOs;
 using System.Threading.Tasks;
 using System;
 using FluentAssertions;
@@ -87,6 +88,78 @@ namespace Agenda.Tests.Unidade.Servicos
       resposta.Erro.Mensagem.Should().Be("Usuário não encontrado(a)!");
       resposta.Erro.StatusCode.Should().Be(404);
       resposta.Erro.GetType().Should().Be(typeof(ErroObjetoNaoEncontrado));
+    }
+
+    [Fact]
+    public async Task Deve_Autenticar_Um_Usuario()
+    {
+      var usuario = new Modelos.Usuario(
+        "usuario login",
+        "pMt6WXGnAFrN1o13CIDRGw==.Bc8/fYrDFfyw576GfZnlEgnYIqZfszuKEErs2agPgRA=",
+        "usuario nome")
+      {
+        Id = Guid.NewGuid(),
+      };
+      usuario.AdicionarToken(Guid.NewGuid().ToString());
+
+      var dadosUsuario = new DTOs.Usuario
+      {
+        Login = "usuario login",
+        Senha = "123456"
+      };
+
+      _usuarios.Setup(repositorio => repositorio.ObterPorLogin(It.IsAny<string>()))
+                   .Returns(Task.FromResult(usuario));
+
+      var resposta = await _servico.Autenticar(dadosUsuario);
+
+      var usuarioEncontrado = resposta.Resultado;
+
+      usuarioEncontrado.Id.Should().NotBeEmpty();
+      usuarioEncontrado.Login.Should().Be("usuario login");
+      usuarioEncontrado.Token.Should().NotBeNullOrWhiteSpace();
+      usuarioEncontrado.Nome.Should().Be("usuario nome");
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Autenticar_Um_Usuario_Inexistente()
+    {
+      var dadosUsuario = new DTOs.Usuario
+      {
+        Login = "usuario login",
+        Senha = "123456"
+      };
+
+      var resposta = await _servico.Autenticar(dadosUsuario);
+
+      resposta.Erro.Mensagem.Should().Be("Login inválido(a)!");
+      resposta.Erro.StatusCode.Should().Be(400);
+      resposta.Erro.GetType().Should().Be(typeof(ErroAtributoInvalido));
+    }
+
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Autenticar_Um_Usuario_Com_Senha_Invalida()
+    {
+      var usuario = new Modelos.Usuario(
+        "usuario login",
+        "bHBlUVj1rFG48+Bd+4+yGA==.7KQGnYFMukLhkfSqhbfGhtqtqELUntz4AbGhrrqspLs=",
+        "usuario nome");
+
+      var dadosUsuario = new DTOs.Usuario
+      {
+        Login = "usuario login",
+        Senha = "123456"
+      };
+
+      _usuarios.Setup(repositorio => repositorio.ObterPorLogin(It.IsAny<string>()))
+                         .Returns(Task.FromResult(usuario));
+
+      var resposta = await _servico.Autenticar(dadosUsuario);
+
+      resposta.Erro.Mensagem.Should().Be("Senha inválido(a)!");
+      resposta.Erro.StatusCode.Should().Be(400);
+      resposta.Erro.GetType().Should().Be(typeof(ErroAtributoInvalido));
     }
   }
 }
