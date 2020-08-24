@@ -37,7 +37,7 @@ export default function Registro() {
 
       history.push("/login");
     } catch (erro) {
-      const mensagemDeErro = erro.response.data;
+      const mensagemDeErro = erro.response.data.mensagem;
       alert(mensagemDeErro);
     }
   }

@@ -88,15 +88,30 @@ namespace Agenda.Servicos
       return resposta;
     }
 
-    public async Task<Guid> Salvar(DTOs.Usuario dadosUsuario)
+    public async Task<Dominio.Servicos.Resposta<Modelos.Usuario>> Salvar(DTOs.Usuario dadosUsuario)
     {
+      var resposta = new Resposta<Modelos.Usuario>();
       var senha = new Modelos.Senha();
 
-      var usuario = new Modelos.Usuario(dadosUsuario.Login, senha.GerarHash(dadosUsuario.Senha), dadosUsuario.Nome);
+      if (string.IsNullOrWhiteSpace(dadosUsuario.Nome))
+        resposta.Erro = new ErroAtributoEmBranco("nome");
 
-      var id = await _usuarios.Salvar(usuario);
+      else if (string.IsNullOrWhiteSpace(dadosUsuario.Login))
+        resposta.Erro = new ErroAtributoEmBranco("login");
 
-      return id;
+      else if (string.IsNullOrWhiteSpace(dadosUsuario.Senha))
+        resposta.Erro = new ErroAtributoEmBranco("senha");
+
+      else
+      {
+        var usuario = new Modelos.Usuario(dadosUsuario.Login, senha.GerarHash(dadosUsuario.Senha), dadosUsuario.Nome);
+
+        usuario.Id = await _usuarios.Salvar(usuario);
+
+        resposta.Resultado = usuario;
+      }
+
+      return resposta;
     }
 
     private bool ExisteContatosVinculados(Modelos.Usuario usuario) => usuario.Contatos.Count() > 0;

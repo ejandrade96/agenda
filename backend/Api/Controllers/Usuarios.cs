@@ -29,15 +29,6 @@ namespace Agenda.Api.Controllers
     [Consumes("application/x-www-form-urlencoded")]
     public async Task<IActionResult> Post([FromForm] IFormCollection usuario)
     {
-      if (string.IsNullOrWhiteSpace(usuario["nome"]))
-        return BadRequest("Favor preencher o campo nome.");
-
-      else if (string.IsNullOrWhiteSpace(usuario["login"]))
-        return BadRequest("Favor preencher o campo login.");
-
-      else if (string.IsNullOrWhiteSpace(usuario["senha"]))
-        return BadRequest("Favor preencher o campo senha.");
-
       var dadosUsuario = new DTOs.Usuario()
       {
         Login = usuario["login"],
@@ -45,7 +36,14 @@ namespace Agenda.Api.Controllers
         Nome = usuario["nome"]
       };
 
-      var id = await _servico.Salvar(dadosUsuario);
+      var resposta = await _servico.Salvar(dadosUsuario);
+
+      if (resposta.TemErro())
+      {
+        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+      }
+
+      var id = resposta.Resultado.Id;
 
       return Created($"/usuarios/{id}", new { Id = id });
     }

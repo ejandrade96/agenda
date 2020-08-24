@@ -6,7 +6,7 @@ namespace Agenda.Dominio.Servicos
 {
   public interface Usuario
   {
-    Task<Guid> Salvar(DTOs.Usuario dadosUsuario);
+    Task<Resposta<Modelos.Usuario>> Salvar(DTOs.Usuario dadosUsuario);
 
     Task<List<Modelos.Usuario>> Listar();
 

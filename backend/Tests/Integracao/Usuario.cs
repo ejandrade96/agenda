@@ -39,7 +39,7 @@ namespace Agenda.Tests.Integracao
 
       retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
       retorno.StatusCode.Should().Be(400);
-      mensagem.Should().Contain("Favor preencher o campo login.");
+      mensagem.Should().Contain("Erro! Campo login está em branco.");
     }
 
     [Fact]
@@ -55,7 +55,7 @@ namespace Agenda.Tests.Integracao
 
       retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
       retorno.StatusCode.Should().Be(400);
-      mensagem.Should().Contain("Favor preencher o campo nome.");
+      mensagem.Should().Contain("Erro! Campo nome está em branco.");
     }
 
     [Fact]
@@ -71,9 +71,8 @@ namespace Agenda.Tests.Integracao
 
       retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
       retorno.StatusCode.Should().Be(400);
-      mensagem.Should().Contain("Favor preencher o campo senha.");
+      mensagem.Should().Contain("Erro! Campo senha está em branco.");
     }
-
 
     [Fact]
     public async Task Deve_Autenticar_Um_Usuario()
