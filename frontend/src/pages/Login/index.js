@@ -44,13 +44,14 @@ export default function Login() {
   }
 
   return (
-    <div className="login-container">
+    <div className="login-container" data-cy="login-container">
       <section className="form">
         <form onSubmit={handleEntrar}>
           <h1>Faça seu login</h1>
 
           <input
             placeholder="Login"
+            data-cy="input-login"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
           />
@@ -58,15 +59,20 @@ export default function Login() {
           <input
             placeholder="Senha"
             type="password"
+            data-cy="input-senha"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
 
-          <button className="button" type="submit">
+          <button className="button" type="submit" data-cy="btn-entrar">
             Entrar
           </button>
 
-          <Link className="link" to="/registro">
+          <Link
+            className="link"
+            to="/registro"
+            data-cy="link-nao-tenho-cadastro"
+          >
             <FiLogIn size={16} color="#0000CD" />
             Não tenho cadastro
           </Link>

@@ -14,12 +14,6 @@ export default function Home() {
 
   const history = useHistory();
 
-  // setContatos(
-  //   contatos.filter((contato) =>
-  //     contato.nome.toLowerCase().includes(inputBusca.toLowerCase())
-  //   )
-  // );
-
   useEffect(() => {
     api.get(`usuarios/${usuarioId}/contatos`).then((response) => {
       setContatos(response.data);
@@ -46,7 +40,17 @@ export default function Home() {
 
   const handleEdit = (id, objeto) => history.push(`/editar/${id}`, objeto);
 
-  const handleChange = (evento) => setInputBusca(evento.target.value);
+  // const handleChange = (evento) => setInputBusca(evento.target.value);
+
+  function handleChange(evento) {
+    setContatos(
+      contatos.filter((contato) =>
+        contato.nome.toLowerCase().includes(evento.target.value.toLowerCase())
+      )
+    );
+
+    // setInputBusca(evento.target.value);
+  }
 
   return (
     <div className="home-container">
