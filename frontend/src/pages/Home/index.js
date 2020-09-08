@@ -9,25 +9,40 @@ import api from "../../services/api";
 export default function Home() {
   const usuarioNome = localStorage.getItem("usuarioNome");
   const usuarioId = localStorage.getItem("usuarioId");
+  const usuarioToken = localStorage.getItem("usuarioToken");
   const [inputBusca, setInputBusca] = useState("");
   const [contatos, setContatos] = useState([]);
 
   const history = useHistory();
 
   useEffect(() => {
-    api.get(`usuarios/${usuarioId}/contatos`).then((response) => {
-      setContatos(response.data);
-    });
-  }, [usuarioId]);
+    api
+      .get(`usuarios/${usuarioId}/contatos`, {
+        headers: {
+          Authorization: `Bearer ${usuarioToken}`,
+        },
+      })
+      .then((response) => {
+        setContatos(response.data);
+      });
+  }, [usuarioId, usuarioToken]);
 
   async function handleDelete(id) {
     try {
-      await api.delete(`contatos/${id}`);
+      await api.delete(`contatos/${id}`, {
+        headers: {
+          Authorization: `Bearer ${usuarioToken}`,
+        },
+      });
 
       setContatos(contatos.filter((contato) => contato.id !== id));
     } catch (erro) {
       alert(
-        `${erro.response.data.mensagem} Status Code ${erro.response.status}.`
+        `${
+          !erro.response.data.mensagem
+            ? erro.response.data.title
+            : erro.response.data.mensagem
+        } Status Code ${erro.response.status}.`
       );
     }
   }

@@ -7,6 +7,7 @@ import "./styles.css";
 
 export default function SalvarContato(props) {
   const usuarioId = localStorage.getItem("usuarioId");
+  const usuarioToken = localStorage.getItem("usuarioToken");
   const estado = props.location.state;
   const contatoId = props.match.params["contatoId"];
 
@@ -36,13 +37,22 @@ export default function SalvarContato(props) {
 
     try {
       if (contatoId) {
-        await api.put(`contatos/${contatoId}`, dados);
+        await api.put(`contatos/${contatoId}`, dados, {
+          headers: {
+            Authorization: `Bearer ${usuarioToken}`,
+          },
+        });
 
         alert("Contato atualizado com sucesso!");
       } else {
         const resposta = await api.post(
           `usuarios/${usuarioId}/contatos`,
-          dados
+          dados,
+          {
+            headers: {
+              Authorization: `Bearer ${usuarioToken}`,
+            },
+          }
         );
 
         alert(`Seu ID de acesso: ${resposta.data.id}`);

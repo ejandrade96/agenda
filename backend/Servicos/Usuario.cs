@@ -114,7 +114,13 @@ namespace Agenda.Servicos
       return resposta;
     }
 
-    public async Task<bool> ValidarToken(string token) => await _usuarios.ValidarToken(token) == true;
+    public async Task<bool> ValidarToken(string token)
+    {
+      if (string.IsNullOrWhiteSpace(token) || token.Contains("Bearer") == false)
+        return false;
+
+      return await _usuarios.ValidarToken(token);
+    }
 
     private bool ExisteContatosVinculados(Modelos.Usuario usuario) => usuario.Contatos.Count() > 0;
   }

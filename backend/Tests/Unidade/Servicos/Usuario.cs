@@ -174,9 +174,31 @@ namespace Agenda.Tests.Unidade.Servicos
     }
 
     [Fact]
-    public async Task Deve_Retornar_Erro_Se_O_Token_For_Invalido()
+    public async Task Deve_Retornar_Falso_Se_O_Token_For_Invalido()
     {
       var tokenEhValido = await _servico.ValidarToken("Bearer 04c380ef-5470-4408-b2ea-76809b2e160e");
+
+      tokenEhValido.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Falso_Se_O_Token_Estiver_Em_Branco()
+    {
+      _usuarios.Setup(repositorio => repositorio.ValidarToken(It.IsAny<string>()))
+                         .Returns(Task.FromResult(true));
+
+      var tokenEhValido = await _servico.ValidarToken("");
+
+      tokenEhValido.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Falso_Se_O_Token_Estiver_Incompleto()
+    {
+      _usuarios.Setup(repositorio => repositorio.ValidarToken(It.IsAny<string>()))
+                         .Returns(Task.FromResult(true));
+
+      var tokenEhValido = await _servico.ValidarToken("04c380ef-5470-4408-b2ea-76809b2e160e");
 
       tokenEhValido.Should().BeFalse();
     }
