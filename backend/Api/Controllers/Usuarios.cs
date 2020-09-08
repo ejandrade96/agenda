@@ -108,34 +108,48 @@ namespace Agenda.Api.Controllers
     }
 
     [HttpPost("/usuarios/{usuarioId}/contatos")]
-    public async Task<IActionResult> Post([FromBody] DTOs.Contato dadosContato, Guid usuarioId)
+    public async Task<IActionResult> Post([FromHeader(Name = "Authorization")] string token, [FromBody] DTOs.Contato dadosContato, Guid usuarioId)
     {
-      dadosContato.UsuarioId = usuarioId;
-      var resposta = await _servicoContato.Salvar(dadosContato);
+      var tokenEhValido = await _servico.ValidarToken(token);
 
-      if (resposta.TemErro())
+      if (tokenEhValido)
       {
-        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+        dadosContato.UsuarioId = usuarioId;
+        var resposta = await _servicoContato.Salvar(dadosContato);
+
+        if (resposta.TemErro())
+        {
+          return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+        }
+
+        var id = resposta.Resultado.Id;
+
+        return Created($"/usuarios/{usuarioId}/contatos/{id}", new { Id = id });
       }
 
-      var id = resposta.Resultado.Id;
-
-      return Created($"/usuarios/{usuarioId}/contatos/{id}", new { Id = id });
+      return Unauthorized();
     }
 
     [HttpGet("/usuarios/{usuarioId}/contatos")]
-    public async Task<IActionResult> GetByUserId(Guid usuarioId)
+    public async Task<IActionResult> GetByUserId([FromHeader(Name = "Authorization")] string token, Guid usuarioId)
     {
-      var resposta = await _servicoContato.ListarPorUsuarioId(usuarioId);
+      var tokenEhValido = await _servico.ValidarToken(token);
 
-      if (resposta.TemErro())
+      if (tokenEhValido)
       {
-        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+        var resposta = await _servicoContato.ListarPorUsuarioId(usuarioId);
+
+        if (resposta.TemErro())
+        {
+          return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+        }
+
+        var contatos = _mapper.Map<List<DTOs.Contato>>(resposta.Resultado);
+
+        return Ok(contatos);
       }
 
-      var contatos = _mapper.Map<List<DTOs.Contato>>(resposta.Resultado);
-
-      return Ok(contatos);
+      return Unauthorized();
     }
   }
 }

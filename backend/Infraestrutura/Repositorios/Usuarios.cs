@@ -27,5 +27,12 @@ namespace Agenda.Infraestrutura.Repositorios
     }
 
     public Task<Usuario> ObterPorLogin(string login) => Task.FromResult(_dataset.FirstOrDefault((u) => u.Login.Equals(login)));
+
+    public Task<bool> ValidarToken(string token)
+    {
+      var usuario = _dataset.FirstOrDefault((u) => u.Token.Equals(token.Replace("Bearer ", "")));
+
+      return Task.FromResult(usuario != null);
+    }
   }
 }

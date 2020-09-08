@@ -11,5 +11,7 @@ namespace Agenda.Dominio.Repositorios
     Task<Modelos.Usuario> ObterPorId(Guid id);
 
     Task<Modelos.Usuario> ObterPorLogin(string login);
+
+    Task<bool> ValidarToken(string token);
   }
 }

@@ -20,10 +20,29 @@ namespace Agenda.Tests.Integracao
         email = "contato@live.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PostAsync("/usuarios/B1ACBCDE-D53C-4D89-9F94-B2316694703F/contatos", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.Created);
       retorno.Headers.Location.ToString().Contains("/usuarios/").Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Cadastrar_Um_Contato_Com_O_Token_Do_Usuario_Invalido()
+    {
+      var contato = new
+      {
+        nome = "Contato",
+        telefone = "11 45872534",
+        celular = "11 958742136",
+        email = "contato@live.com"
+      };
+
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 04c380ef-5470-4408-b2ea-76809b2e160e");
+      var retorno = await _api.PostAsync("/usuarios/B1ACBCDE-D53C-4D89-9F94-B2316694703F/contatos", ConverterParaJSON<Object>(contato));
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+      retorno.StatusCode.Should().Be(401);
     }
 
     [Fact]
@@ -39,6 +58,7 @@ namespace Agenda.Tests.Integracao
 
       var usuarioId = Guid.NewGuid();
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PostAsync($"/usuarios/{usuarioId}/contatos", ConverterParaJSON<Object>(contato));
       var erroEmJson = await retorno.Content.ReadAsStringAsync();
       var erro = Converter<Dictionary<string, string>>(erroEmJson);
@@ -59,6 +79,7 @@ namespace Agenda.Tests.Integracao
         email = "contato.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PostAsync("/usuarios/4337e5b1-138e-45c0-b6ac-3f1ebe3c133b/contatos", ConverterParaJSON<Object>(contato));
       var mensagem = await retorno.Content.ReadAsStringAsync();
 
@@ -78,6 +99,7 @@ namespace Agenda.Tests.Integracao
         email = "contato@live.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PostAsync("/usuarios/4337e5b1-138e-45c0-b6ac-3f1ebe3c133b/contatos", ConverterParaJSON<Object>(contato));
       var mensagem = await retorno.Content.ReadAsStringAsync();
 
@@ -96,6 +118,7 @@ namespace Agenda.Tests.Integracao
         email = "contato@live.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PostAsync("/usuarios/4337e5b1-138e-45c0-b6ac-3f1ebe3c133b/contatos", ConverterParaJSON<Object>(contato));
       var mensagem = await retorno.Content.ReadAsStringAsync();
 
@@ -114,6 +137,7 @@ namespace Agenda.Tests.Integracao
         email = "contato@live.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PostAsync("/usuarios/4337e5b1-138e-45c0-b6ac-3f1ebe3c133b/contatos", ConverterParaJSON<Object>(contato));
       var mensagem = await retorno.Content.ReadAsStringAsync();
 
@@ -124,6 +148,7 @@ namespace Agenda.Tests.Integracao
     [Fact]
     public async Task Deve_Retornar_Um_Contato_Por_Id()
     {
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.GetAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef");
       var contatoEmJson = await retorno.Content.ReadAsStringAsync();
       var contato = Converter<Dictionary<string, string>>(contatoEmJson);
@@ -139,6 +164,8 @@ namespace Agenda.Tests.Integracao
     public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Um_Contato_Inexistente()
     {
       var id = Guid.NewGuid();
+
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.GetAsync($"/contatos/{id}");
       var erroEmJson = await retorno.Content.ReadAsStringAsync();
       var erro = Converter<Dictionary<string, string>>(erroEmJson);
@@ -146,6 +173,16 @@ namespace Agenda.Tests.Integracao
       retorno.StatusCode.Should().Be(HttpStatusCode.NotFound);
       retorno.StatusCode.Should().Be(404);
       erro["mensagem"].Should().Be("Contato não encontrado(a)!");
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Um_Contato_De_Um_Usuario_Com_Token_Invalido()
+    {
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 04c380ef-5470-4408-b2ea-76809b2e160e");
+      var retorno = await _api.GetAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef");
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+      retorno.StatusCode.Should().Be(401);
     }
 
     [Fact]
@@ -170,6 +207,7 @@ namespace Agenda.Tests.Integracao
     [Fact]
     public async Task Deve_Retornar_Todos_Os_Contatos_De_Um_Usuario()
     {
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.GetAsync("/usuarios/4337e5b1-138e-45c0-b6ac-3f1ebe3c133b/contatos");
       var contatosEmJson = await retorno.Content.ReadAsStringAsync();
       var contatos = Converter<List<Dictionary<string, object>>>(contatosEmJson);
@@ -189,6 +227,7 @@ namespace Agenda.Tests.Integracao
     [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Todos_Os_Contatos_De_Um_Usuario_Inexistente()
     {
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var usuarioId = Guid.NewGuid();
       var retorno = await _api.GetAsync($"/usuarios/{usuarioId}/contatos");
       var erroEmJson = await retorno.Content.ReadAsStringAsync();
@@ -200,15 +239,13 @@ namespace Agenda.Tests.Integracao
     }
 
     [Fact]
-    public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Todos_Os_Contatos_De_Um_Usuario_Que_Nao_Possui_Contatos()
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Todos_Os_Contatos_De_Um_Usuario_Com_O_Token_Invalido()
     {
-      var retorno = await _api.GetAsync($"/usuarios/5d8f714c-9e87-476e-a475-c420dbe807ff/contatos");
-      var erroEmJson = await retorno.Content.ReadAsStringAsync();
-      var erro = Converter<Dictionary<string, string>>(erroEmJson);
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 04c380ef-5470-4408-b2ea-76809b2e160e");
+      var retorno = await _api.GetAsync("/usuarios/4337e5b1-138e-45c0-b6ac-3f1ebe3c133b/contatos");
 
-      retorno.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-      retorno.StatusCode.Should().Be(400);
-      erro["mensagem"].Should().Be("Este usuário não possui contatos.");
+      retorno.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+      retorno.StatusCode.Should().Be(401);
     }
 
     [Fact]
@@ -241,6 +278,7 @@ namespace Agenda.Tests.Integracao
         email = "contato1@live.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -257,6 +295,7 @@ namespace Agenda.Tests.Integracao
         email = "contato1@live.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -273,6 +312,7 @@ namespace Agenda.Tests.Integracao
         email = "contato1@live.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -289,6 +329,7 @@ namespace Agenda.Tests.Integracao
         email = "contato10@live.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -306,6 +347,7 @@ namespace Agenda.Tests.Integracao
         email = "contato10@live.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PutAsync($"/contatos/{id}", ConverterParaJSON<Object>(contato));
       var erroEmJson = await retorno.Content.ReadAsStringAsync();
       var erro = Converter<Dictionary<string, string>>(erroEmJson);
@@ -326,6 +368,7 @@ namespace Agenda.Tests.Integracao
         email = "contato.com"
       };
 
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
       var mensagem = await retorno.Content.ReadAsStringAsync();
 
@@ -335,8 +378,27 @@ namespace Agenda.Tests.Integracao
     }
 
     [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Atualizar_Um_Contato_De_Um_Usuario_Com_O_Token_Invalido()
+    {
+      var contato = new
+      {
+        nome = "Contato 1",
+        telefone = "11 45872534",
+        celular = "11 958742136",
+        email = "contato10@live.com"
+      };
+
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 04c380ef-5470-4408-b2ea-76809b2e160e");
+      var retorno = await _api.PutAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef", ConverterParaJSON<Object>(contato));
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+      retorno.StatusCode.Should().Be(401);
+    }
+
+    [Fact]
     public async Task Deve_Deletar_Um_Contato()
     {
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.DeleteAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef");
 
       retorno.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -346,6 +408,8 @@ namespace Agenda.Tests.Integracao
     public async Task Deve_Retornar_Erro_Quando_Tentar_Deletar_Um_Contato_Inexistente()
     {
       var id = Guid.NewGuid();
+
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
       var retorno = await _api.DeleteAsync($"/contatos/{id}");
       var erroEmJson = await retorno.Content.ReadAsStringAsync();
       var erro = Converter<Dictionary<string, string>>(erroEmJson);
@@ -353,6 +417,16 @@ namespace Agenda.Tests.Integracao
       retorno.StatusCode.Should().Be(HttpStatusCode.NotFound);
       retorno.StatusCode.Should().Be(404);
       erro["mensagem"].Should().Be("Contato não encontrado(a)!");
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Quando_Tentar_Deletar_Um_Contato_De_Um_Usuario_Com_O_Token_Invalido()
+    {
+      _api.DefaultRequestHeaders.Add("Authorization", "Bearer 04c380ef-5470-4408-b2ea-76809b2e160e");
+      var retorno = await _api.DeleteAsync("/contatos/181fbe3a-d3ec-43a5-8791-9db5c3841cef");
+
+      retorno.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+      retorno.StatusCode.Should().Be(401);
     }
   }
 }

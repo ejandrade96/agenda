@@ -114,6 +114,8 @@ namespace Agenda.Servicos
       return resposta;
     }
 
+    public async Task<bool> ValidarToken(string token) => await _usuarios.ValidarToken(token) == true;
+
     private bool ExisteContatosVinculados(Modelos.Usuario usuario) => usuario.Contatos.Count() > 0;
   }
 }

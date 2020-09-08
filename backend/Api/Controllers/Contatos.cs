@@ -14,27 +14,37 @@ namespace Agenda.Api.Controllers
   {
     private readonly Contato _servico;
 
+    private readonly Usuario _servicoUsuario;
+
     private readonly IMapper _mapper;
 
-    public Contatos(Contato servico, IMapper mapper)
+    public Contatos(Contato servico, Usuario servicoUsuario, IMapper mapper)
     {
       _servico = servico;
+      _servicoUsuario = servicoUsuario;
       _mapper = mapper;
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> ObterPorId(Guid id)
+    public async Task<IActionResult> ObterPorId([FromHeader(Name = "Authorization")] string token, Guid id)
     {
-      var resposta = await _servico.ObterPorId(id);
+      var tokenEhValido = await _servicoUsuario.ValidarToken(token);
 
-      if (resposta.TemErro())
+      if (tokenEhValido)
       {
-        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+        var resposta = await _servico.ObterPorId(id);
+
+        if (resposta.TemErro())
+        {
+          return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+        }
+
+        var dadosContato = _mapper.Map<DTOs.Contato>(resposta.Resultado);
+
+        return Ok(dadosContato);
       }
 
-      var dadosContato = _mapper.Map<DTOs.Contato>(resposta.Resultado);
-
-      return Ok(dadosContato);
+      return Unauthorized();
     }
 
     [HttpGet]
@@ -48,31 +58,44 @@ namespace Agenda.Api.Controllers
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete([FromHeader(Name = "Authorization")] string token, Guid id)
     {
-      var resposta = await _servico.Deletar(id);
+      var tokenEhValido = await _servicoUsuario.ValidarToken(token);
 
-      if (resposta.TemErro())
+      if (tokenEhValido)
       {
-        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+        var resposta = await _servico.Deletar(id);
+
+        if (resposta.TemErro())
+        {
+          return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+        }
+
+        return NoContent();
       }
 
-      return NoContent();
+      return Unauthorized();
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put([FromBody] DTOs.Contato dadosContato, Guid id)
+    public async Task<IActionResult> Put([FromHeader(Name = "Authorization")] string token, [FromBody] DTOs.Contato dadosContato, Guid id)
     {
-      dadosContato.Id = id;
+      var tokenEhValido = await _servicoUsuario.ValidarToken(token);
 
-      var resposta = await _servico.Atualizar(dadosContato);
-
-      if (resposta.TemErro())
+      if (tokenEhValido)
       {
-        return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+        dadosContato.Id = id;
+        var resposta = await _servico.Atualizar(dadosContato);
+
+        if (resposta.TemErro())
+        {
+          return StatusCode(resposta.Erro.StatusCode, new { Mensagem = resposta.Erro.Mensagem });
+        }
+
+        return NoContent();
       }
 
-      return NoContent();
+      return Unauthorized();
     }
   }
 }

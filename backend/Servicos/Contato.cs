@@ -116,9 +116,6 @@ namespace Agenda.Servicos
         return resposta;
       }
 
-      if (usuario.Contatos == null || usuario.Contatos.Count().Equals(0))
-        resposta.Erro = new ErroObjetoNaoPossuiObjetosVinculados("usuário", "contatos");
-
       else
         resposta.Resultado = usuario.Contatos.ToList();
 

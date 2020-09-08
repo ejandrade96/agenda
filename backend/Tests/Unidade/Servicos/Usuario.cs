@@ -161,5 +161,24 @@ namespace Agenda.Tests.Unidade.Servicos
       resposta.Erro.StatusCode.Should().Be(400);
       resposta.Erro.GetType().Should().Be(typeof(ErroAtributoInvalido));
     }
+
+    [Fact]
+    public async Task Deve_Validar_Token_No_Banco_De_Dados()
+    {
+      _usuarios.Setup(repositorio => repositorio.ValidarToken(It.IsAny<string>()))
+                         .Returns(Task.FromResult(true));
+
+      var tokenEhValido = await _servico.ValidarToken("Bearer 43f1818c-d5bf-46f1-8391-fe619d01653c");
+
+      tokenEhValido.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Deve_Retornar_Erro_Se_O_Token_For_Invalido()
+    {
+      var tokenEhValido = await _servico.ValidarToken("Bearer 04c380ef-5470-4408-b2ea-76809b2e160e");
+
+      tokenEhValido.Should().BeFalse();
+    }
   }
 }

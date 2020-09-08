@@ -216,18 +216,5 @@ namespace Agenda.Tests.Unidade.Servicos
       resposta.Erro.StatusCode.Should().Be(404);
       resposta.Erro.GetType().Should().Be(typeof(ErroObjetoNaoEncontrado));
     }
-
-    [Fact]
-    public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Todos_Os_Contatos_De_Um_Usuario_Que_Nao_Possui_Contatos()
-    {
-      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
-               .Returns(Task.FromResult(new Modelos.Usuario("", "", "")));
-
-      var resposta = await _servico.ListarPorUsuarioId(Guid.Parse("4337e5b1-138e-45c0-b6ac-3f1ebe3c133b"));
-
-      resposta.Erro.Mensagem.Should().Be("Este usuário não possui contatos.");
-      resposta.Erro.StatusCode.Should().Be(400);
-      resposta.Erro.GetType().Should().Be(typeof(ErroObjetoNaoPossuiObjetosVinculados));
-    }
   }
 }

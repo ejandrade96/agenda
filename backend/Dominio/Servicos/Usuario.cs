@@ -15,5 +15,7 @@ namespace Agenda.Dominio.Servicos
     Task<Resposta<Modelos.Usuario>> Deletar(Guid id);
 
     Task<Resposta<DTOs.Usuario>> Autenticar(DTOs.Usuario dadosUsuario);
+
+    Task<bool> ValidarToken(string token);
   }
 }
