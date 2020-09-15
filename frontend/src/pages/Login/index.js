@@ -5,7 +5,7 @@ import querystring from "querystring";
 
 import api from "../../services/api";
 import "./styles.css";
-import loginImg from "../../assets/login.png";
+import logoImg from "../../assets/logo.png";
 
 export default function Login() {
   const [login, setLogin] = useState("");
@@ -79,7 +79,7 @@ export default function Login() {
         </form>
       </section>
 
-      <img src={loginImg} alt="Login" />
+      <img src={logoImg} alt="Login" />
     </div>
   );
 }
