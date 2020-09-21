@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  webapp:
+    build: ./frontend
+    image: agenda/webapp
+    container_name: agenda-webapp
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    networks:
+      - agenda-network
+    environment:
+      - API_AGENDA=http://api:80
+    depends_on:
+      - api
+    command: yarn start
+
+  api:
+    build: ./backend
+    image: agenda/api
+    container_name: agenda-api
+    ports:
+      - "5001:80"
+    networks:
+      - agenda-network
+    command: dotnet Api.dll
+
+networks:
+  agenda-network:
+    name: agenda-network
+    driver: bridge
