@@ -53,7 +53,7 @@ namespace Agenda.Servicos
       return resposta;
     }
 
-    public async Task<Dominio.Servicos.Resposta<Modelos.Usuario>> Deletar(Guid id)
+    public async Task<Dominio.Servicos.Resposta<Modelos.Usuario>> Deletar(int id)
     {
       var resposta = new Resposta<Modelos.Usuario>();
 
@@ -73,7 +73,7 @@ namespace Agenda.Servicos
 
     public Task<List<Modelos.Usuario>> Listar() => _usuarios.Listar();
 
-    public async Task<Dominio.Servicos.Resposta<Modelos.Usuario>> ObterPorId(Guid id)
+    public async Task<Dominio.Servicos.Resposta<Modelos.Usuario>> ObterPorId(int id)
     {
       var resposta = new Resposta<Modelos.Usuario>();
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -80,7 +79,7 @@ namespace Agenda.Api.Controllers
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(int id)
     {
       var resposta = await _servico.ObterPorId(id);
 
@@ -95,7 +94,7 @@ namespace Agenda.Api.Controllers
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(int id)
     {
       var resposta = await _servico.Deletar(id);
 
@@ -108,7 +107,7 @@ namespace Agenda.Api.Controllers
     }
 
     [HttpPost("/usuarios/{usuarioId}/contatos")]
-    public async Task<IActionResult> Post([FromHeader(Name = "Authorization")] string token, [FromBody] DTOs.Contato dadosContato, Guid usuarioId)
+    public async Task<IActionResult> Post([FromHeader(Name = "Authorization")] string token, [FromBody] DTOs.Contato dadosContato, int usuarioId)
     {
       var tokenEhValido = await _servico.ValidarToken(token);
 
@@ -131,7 +130,7 @@ namespace Agenda.Api.Controllers
     }
 
     [HttpGet("/usuarios/{usuarioId}/contatos")]
-    public async Task<IActionResult> GetByUserId([FromHeader(Name = "Authorization")] string token, Guid usuarioId)
+    public async Task<IActionResult> GetByUserId([FromHeader(Name = "Authorization")] string token, int usuarioId)
     {
       var tokenEhValido = await _servico.ValidarToken(token);
 

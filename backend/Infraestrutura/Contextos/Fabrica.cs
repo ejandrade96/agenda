@@ -1,6 +1,7 @@
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace Agenda.Infraestrutura.Contextos
 {
@@ -8,9 +9,14 @@ namespace Agenda.Infraestrutura.Contextos
   {
     public MyContext CreateDbContext(string[] args)
     {
-      var conexao = "Data Source=" + Path.Combine(Directory.GetCurrentDirectory(), "../Api/agenda.db");
+      IConfigurationRoot configuration = new ConfigurationBuilder()
+                                         .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../Api/"))
+                                         .AddJsonFile("appsettings.json")
+                                         .Build();
+
       var optionsBuilder = new DbContextOptionsBuilder<MyContext>();
-      optionsBuilder.UseSqlite(conexao);
+      var connectionString = configuration.GetConnectionString("AgendaDBContext");
+      optionsBuilder.UseSqlServer(connectionString);
 
       return new MyContext(optionsBuilder.Options);
     }

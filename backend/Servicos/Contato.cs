@@ -24,7 +24,7 @@ namespace Agenda.Servicos
 
     public async Task<List<Modelos.Contato>> Listar(string nome) => await _contatos.Listar(nome);
 
-    public async Task<Dominio.Servicos.Resposta<Modelos.Contato>> ObterPorId(Guid id)
+    public async Task<Dominio.Servicos.Resposta<Modelos.Contato>> ObterPorId(int id)
     {
       var resposta = new Resposta<Modelos.Contato>();
 
@@ -65,7 +65,7 @@ namespace Agenda.Servicos
       return resposta;
     }
 
-    public async Task<Dominio.Servicos.Resposta<Modelos.Contato>> Deletar(Guid id)
+    public async Task<Dominio.Servicos.Resposta<Modelos.Contato>> Deletar(int id)
     {
       var resposta = new Resposta<Modelos.Contato>();
 
@@ -104,7 +104,7 @@ namespace Agenda.Servicos
       return resposta;
     }
 
-    public async Task<Dominio.Servicos.Resposta<List<Modelos.Contato>>> ListarPorUsuarioId(Guid usuarioId)
+    public async Task<Dominio.Servicos.Resposta<List<Modelos.Contato>>> ListarPorUsuarioId(int usuarioId)
     {
       var resposta = new Resposta<List<Modelos.Contato>>();
 
@@ -122,6 +122,6 @@ namespace Agenda.Servicos
       return resposta;
     }
 
-    private async Task<bool> ContatoNaoEncontrado(Guid id) => await _contatos.ObterPorId(id) == null;
+    private async Task<bool> ContatoNaoEncontrado(int id) => await _contatos.ObterPorId(id) == null;
   }
 }

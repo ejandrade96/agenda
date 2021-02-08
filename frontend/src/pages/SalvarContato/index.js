@@ -80,8 +80,8 @@ export default function SalvarContato(props) {
       ${erroNome}
       ${erroTelefone}
       ${erroCelular} 
-      ${erroEmail} `);
-      history.push("/home");
+      ${erroEmail}
+      `);
     }
   }
 

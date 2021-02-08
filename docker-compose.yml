@@ -11,7 +11,8 @@ services:
     networks:
       - agenda-network
     environment:
-      - API_AGENDA=http://api:80
+      # - API_AGENDA=http://34.237.243.233:5001
+      - API_AGENDA=http://localhost:5001
     depends_on:
       - api
     command: yarn start

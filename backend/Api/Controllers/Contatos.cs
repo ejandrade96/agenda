@@ -26,7 +26,7 @@ namespace Agenda.Api.Controllers
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> ObterPorId([FromHeader(Name = "Authorization")] string token, Guid id)
+    public async Task<IActionResult> ObterPorId([FromHeader(Name = "Authorization")] string token, int id)
     {
       var tokenEhValido = await _servicoUsuario.ValidarToken(token);
 
@@ -58,7 +58,7 @@ namespace Agenda.Api.Controllers
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromHeader(Name = "Authorization")] string token, Guid id)
+    public async Task<IActionResult> Delete([FromHeader(Name = "Authorization")] string token, int id)
     {
       var tokenEhValido = await _servicoUsuario.ValidarToken(token);
 
@@ -78,7 +78,7 @@ namespace Agenda.Api.Controllers
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put([FromHeader(Name = "Authorization")] string token, [FromBody] DTOs.Contato dadosContato, Guid id)
+    public async Task<IActionResult> Put([FromHeader(Name = "Authorization")] string token, [FromBody] DTOs.Contato dadosContato, int id)
     {
       var tokenEhValido = await _servicoUsuario.ValidarToken(token);
 

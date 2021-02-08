@@ -14,7 +14,7 @@ namespace Agenda.Infraestrutura.Mapeamentos
       builder.Property(contato => contato.Nome).IsRequired();
       builder.Property(contato => contato.Telefone);
       builder.Property(contato => contato.Celular);
-      builder.Property(contato => contato.Email);
+      builder.Property(contato => contato.Email).IsRequired();
       builder.HasOne(contato => contato.Usuario);
     }
   }

@@ -1,17 +1,15 @@
-using System;
-
 namespace Agenda.Dominio.Fabricas
 {
   public class Contato
   {
-    private Guid _id;
+    private int _id;
     private string _nome;
     private string _celular;
     private string _telefone;
     private string _email;
     private Modelos.Usuario _usuario;
 
-    public Contato Id(Guid id)
+    public Contato Id(int id)
     {
       _id = id;
       return this;

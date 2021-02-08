@@ -5,7 +5,7 @@ namespace Agenda.Dominio.DTOs
 {
   public struct Usuario
   {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     public string Login { get; set; }
 

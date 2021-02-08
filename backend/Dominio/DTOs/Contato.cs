@@ -26,8 +26,8 @@ namespace Agenda.Dominio.DTOs
     [JsonProperty("email")]
     public string Email { get; set; }
 
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
-    public Guid UsuarioId { get; set; }
+    public int UsuarioId { get; set; }
   }
 }

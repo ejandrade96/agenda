@@ -6,8 +6,8 @@ namespace Agenda.Dominio.Repositorios
 {
   public interface Generico<T> where T : ModeloBase
   {
-    Task<Guid> Salvar(T entidade);
+    Task<int> Salvar(T entidade);
 
-    Task Deletar(Guid id);
+    Task Deletar(int id);
   }
 }

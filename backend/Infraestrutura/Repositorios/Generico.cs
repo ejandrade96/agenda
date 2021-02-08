@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Agenda.Dominio.Modelos;
@@ -18,7 +17,7 @@ namespace Agenda.Infraestrutura.Repositorios
       _dataset = _context.Set<T>();
     }
 
-    public async Task Deletar(Guid id)
+    public async Task Deletar(int id)
     {
       var entidade = _dataset.ToList().FirstOrDefault((e) => e.Id.Equals(id));
 
@@ -36,9 +35,9 @@ namespace Agenda.Infraestrutura.Repositorios
       }
     }
 
-    public async Task<Guid> Salvar(T entidade)
+    public async Task<int> Salvar(T entidade)
     {
-      if (entidade.Id == Guid.Empty)
+      if (entidade.Id == 0)
         _dataset.Add(entidade);
 
       else

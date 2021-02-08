@@ -27,10 +27,10 @@ namespace Agenda.Tests.Unidade.Servicos
     {
       var usuario = new Modelos.Usuario("", "", "");
 
-      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
+      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<int>()))
                .Returns(Task.FromResult(usuario));
 
-      var resposta = await _servico.Deletar(Guid.Parse("149944ca-6d46-4357-bcdc-bdeebbe66377"));
+      var resposta = await _servico.Deletar(1);
 
       resposta.TemErro().Should().BeFalse();
     }
@@ -38,7 +38,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Deletar_Um_Usuario_Inexistente()
     {
-      var resposta = await _servico.Deletar(Guid.NewGuid());
+      var resposta = await _servico.Deletar(1);
 
       resposta.Erro.Mensagem.Should().Be("Usuário não encontrado(a)!");
       resposta.Erro.StatusCode.Should().Be(404);
@@ -53,10 +53,10 @@ namespace Agenda.Tests.Unidade.Servicos
       var contato = new Modelos.Contato("Contato", "11 985478521", "11 45873214", "contato@live.com", usuario);
       usuario.AdicionarContato(contato);
 
-      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
+      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<int>()))
                .Returns(Task.FromResult(usuario));
 
-      var resposta = await _servico.Deletar(Guid.Parse("149944ca-6d46-4357-bcdc-bdeebbe66377"));
+      var resposta = await _servico.Deletar(1);
 
       resposta.Erro.Mensagem.Should().Be("Erro! Este usuário possui contatos vinculados.");
       resposta.Erro.StatusCode.Should().Be(400);
@@ -68,10 +68,10 @@ namespace Agenda.Tests.Unidade.Servicos
     {
       var usuario = new Modelos.Usuario("usuario.xpto", "123456", "usuário nome");
 
-      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<Guid>()))
+      _usuarios.Setup(repositorio => repositorio.ObterPorId(It.IsAny<int>()))
                .Returns(Task.FromResult(usuario));
 
-      var resposta = await _servico.ObterPorId(Guid.Parse("149944ca-6d46-4357-bcdc-bdeebbe66377"));
+      var resposta = await _servico.ObterPorId(1);
 
       var usuarioEncontrado = resposta.Resultado;
 
@@ -83,7 +83,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Um_Usuario_Inexistente()
     {
-      var resposta = await _servico.ObterPorId(Guid.NewGuid());
+      var resposta = await _servico.ObterPorId(1);
 
       resposta.Erro.Mensagem.Should().Be("Usuário não encontrado(a)!");
       resposta.Erro.StatusCode.Should().Be(404);
@@ -98,7 +98,7 @@ namespace Agenda.Tests.Unidade.Servicos
         "pMt6WXGnAFrN1o13CIDRGw==.Bc8/fYrDFfyw576GfZnlEgnYIqZfszuKEErs2agPgRA=",
         "usuario nome")
       {
-        Id = Guid.NewGuid(),
+        Id = 1,
       };
       usuario.AdicionarToken(Guid.NewGuid().ToString());
 
@@ -115,7 +115,7 @@ namespace Agenda.Tests.Unidade.Servicos
 
       var usuarioEncontrado = resposta.Resultado;
 
-      usuarioEncontrado.Id.Should().NotBeEmpty();
+      usuarioEncontrado.Id.Should().NotBe(0);
       usuarioEncontrado.Login.Should().Be("usuario login");
       usuarioEncontrado.Token.Should().NotBeNullOrWhiteSpace();
       usuarioEncontrado.Nome.Should().Be("usuario nome");

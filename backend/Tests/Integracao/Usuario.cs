@@ -149,7 +149,7 @@ namespace Agenda.Tests.Integracao
     [Fact]
     public async Task Deve_Retornar_Um_Usuario_Por_Id()
     {
-      var retorno = await _api.GetAsync("/usuarios/4337E5B1-138E-45C0-B6AC-3F1EBE3C133B");
+      var retorno = await _api.GetAsync("/usuarios/1");
       var usuarioEmJson = await retorno.Content.ReadAsStringAsync();
       var usuario = Converter<Dictionary<string, object>>(usuarioEmJson);
 
@@ -162,8 +162,7 @@ namespace Agenda.Tests.Integracao
     [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Buscar_Um_Usuario_Inexistente()
     {
-      var id = Guid.NewGuid();
-      var retorno = await _api.GetAsync($"/usuarios/{id}");
+      var retorno = await _api.GetAsync($"/usuarios/{0}");
       var erroEmJson = await retorno.Content.ReadAsStringAsync();
       var erro = Converter<Dictionary<string, string>>(erroEmJson);
 
@@ -175,8 +174,7 @@ namespace Agenda.Tests.Integracao
     [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Deletar_Um_Usuario_Inexistente()
     {
-      var id = Guid.NewGuid();
-      var retorno = await _api.DeleteAsync($"/usuarios/{id}");
+      var retorno = await _api.DeleteAsync($"/usuarios/{0}");
       var erroEmJson = await retorno.Content.ReadAsStringAsync();
       var erro = Converter<Dictionary<string, string>>(erroEmJson);
 
@@ -188,7 +186,7 @@ namespace Agenda.Tests.Integracao
     [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Deletar_Um_Usuario_Com_Contatos_Vinculados_A_Ele()
     {
-      var retorno = await _api.DeleteAsync($"/usuarios/4337e5b1-138e-45c0-b6ac-3f1ebe3c133b");
+      var retorno = await _api.DeleteAsync($"/usuarios/1");
       var erroEmJson = await retorno.Content.ReadAsStringAsync();
       var erro = Converter<Dictionary<string, string>>(erroEmJson);
 
