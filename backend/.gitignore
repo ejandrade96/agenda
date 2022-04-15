@@ -436,3 +436,5 @@ $RECYCLE.BIN/
 *.db3
 *.db-shm
 *.db-wal
+
+*appsettings.Development.json
