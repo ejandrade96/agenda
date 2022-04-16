@@ -37,7 +37,7 @@ namespace Agenda.Api.Controllers
         [ProducesResponseType(typeof(Erro), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> ObterPorId([FromHeader(Name = "Authorization")] string token, int id)
+        public async Task<IActionResult> ObterPorId([FromHeader(Name = "Authorization")] string token, [FromRoute] int id)
         {
             var tokenEhValido = await _servicoUsuario.ValidarToken(token);
 
@@ -87,7 +87,7 @@ namespace Agenda.Api.Controllers
         [ProducesResponseType(typeof(Erro), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete([FromHeader(Name = "Authorization")] string token, int id)
+        public async Task<IActionResult> Delete([FromHeader(Name = "Authorization")] string token, [FromRoute] int id)
         {
             var tokenEhValido = await _servicoUsuario.ValidarToken(token);
 
@@ -118,7 +118,7 @@ namespace Agenda.Api.Controllers
         [ProducesResponseType(typeof(Erro), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Put([FromHeader(Name = "Authorization")] string token, [FromBody] DTOs.AlteraContato dadosContato, int id)
+        public async Task<IActionResult> Put([FromHeader(Name = "Authorization")] string token, [FromBody] DTOs.AlteraContato dadosContato, [FromRoute] int id)
         {
             var tokenEhValido = await _servicoUsuario.ValidarToken(token);
 

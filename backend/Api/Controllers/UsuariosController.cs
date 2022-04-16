@@ -112,7 +112,7 @@ namespace Agenda.Api.Controllers
         [ProducesResponseType(typeof(Erro), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var resposta = await _servico.ObterPorId(id);
 
@@ -137,7 +137,7 @@ namespace Agenda.Api.Controllers
         [ProducesResponseType(typeof(Erro), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var resposta = await _servico.Deletar(id);
 
@@ -161,7 +161,7 @@ namespace Agenda.Api.Controllers
         [ProducesResponseType(typeof(Erro), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpPost("/usuarios/{usuarioId:int}/contatos")]
-        public async Task<IActionResult> Post([FromHeader(Name = "Authorization")] string token, [FromBody] DTOs.NovoContato dadosContato, int usuarioId)
+        public async Task<IActionResult> Post([FromHeader(Name = "Authorization")] string token, [FromBody] DTOs.NovoContato dadosContato, [FromRoute] int usuarioId)
         {
             var tokenEhValido = await _servico.ValidarToken(token);
 
@@ -194,7 +194,7 @@ namespace Agenda.Api.Controllers
         [ProducesResponseType(typeof(Erro), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpGet("/usuarios/{usuarioId:int}/contatos")]
-        public async Task<IActionResult> GetByUserId([FromHeader(Name = "Authorization")] string token, int usuarioId)
+        public async Task<IActionResult> GetByUserId([FromHeader(Name = "Authorization")] string token, [FromRoute] int usuarioId)
         {
             var tokenEhValido = await _servico.ValidarToken(token);
 
