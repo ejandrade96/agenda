@@ -1,33 +1,44 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-
 namespace Agenda.Dominio.DTOs
 {
-  public struct Contato
-  {
-    [JsonProperty("nome")]
-    [Required(ErrorMessage = "Favor preencher o nome.", AllowEmptyStrings = false)]
-    public string Nome { get; set; }
+    /// <summary>
+    /// Objeto utilizado para retornar um contato
+    /// </summary>
+    public struct Contato
+    {
+        /// <summary>
+        /// Id do contato
+        /// </summary>
+        /// <example>1</example>
+        public int Id { get; set; }
 
-    [MinLength(10, ErrorMessage = "Telefone inválido!")]
-    [MaxLength(11, ErrorMessage = "Telefone inválido!")]
-    [Phone(ErrorMessage = "Telefone inválido!")]
-    [JsonProperty("telefone")]
-    public string Telefone { get; set; }
+        /// <summary>
+        /// Nome do contato
+        /// </summary>
+        /// <example>John Doe</example>
+        public string Nome { get; set; }
 
-    [MinLength(11, ErrorMessage = "Celular inválido!")]
-    [MaxLength(12, ErrorMessage = "Celular inválido!")]
-    [Phone(ErrorMessage = "Celular inválido!")]
-    [JsonProperty("celular")]
-    public string Celular { get; set; }
+        /// <summary>
+        /// N�mero de telefone do contato
+        /// </summary>
+        /// <example>11 45872534</example>
+        public string Telefone { get; set; }
 
-    [EmailAddress(ErrorMessage = "E-mail inválido!")]
-    [JsonProperty("email")]
-    public string Email { get; set; }
+        /// <summary>
+        /// N�mero de celular do contato
+        /// </summary>
+        /// <example>11 958742136</example>
+        public string Celular { get; set; }
 
-    public int Id { get; set; }
+        /// <summary>
+        /// E-mail do contato
+        /// </summary>
+        /// <example>johndoe@live.com</example>
+        public string Email { get; set; }
 
-    public int UsuarioId { get; set; }
-  }
+        /// <summary>
+        /// Id do usu�rio
+        /// </summary>
+        /// <example>1</example>
+        public int UsuarioId { get; set; }
+    }
 }

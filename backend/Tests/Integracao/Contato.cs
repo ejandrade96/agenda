@@ -24,7 +24,7 @@ namespace Agenda.Tests.Integracao
             var retorno = await _api.PostAsync("/usuarios/3/contatos", ConverterParaJSON<Object>(contato));
 
             retorno.StatusCode.Should().Be(HttpStatusCode.Created);
-            retorno.Headers.Location.ToString().Contains("/usuarios/").Should().BeTrue();
+            retorno.Headers.Location.ToString().Contains("/contatos/").Should().BeTrue();
         }
 
         [Fact]

@@ -102,7 +102,7 @@ namespace Agenda.Tests.Unidade.Servicos
       };
       usuario.AdicionarToken(Guid.NewGuid().ToString());
 
-      var dadosUsuario = new DTOs.Usuario
+      var dadosUsuario = new DTOs.NovoUsuario
       {
         Login = "usuario login",
         Senha = "123456"
@@ -124,7 +124,7 @@ namespace Agenda.Tests.Unidade.Servicos
     [Fact]
     public async Task Deve_Retornar_Erro_Quando_Tentar_Autenticar_Um_Usuario_Inexistente()
     {
-      var dadosUsuario = new DTOs.Usuario
+      var dadosUsuario = new DTOs.NovoUsuario
       {
         Login = "usuario login",
         Senha = "123456"
@@ -146,7 +146,7 @@ namespace Agenda.Tests.Unidade.Servicos
         "bHBlUVj1rFG48+Bd+4+yGA==.7KQGnYFMukLhkfSqhbfGhtqtqELUntz4AbGhrrqspLs=",
         "usuario nome");
 
-      var dadosUsuario = new DTOs.Usuario
+      var dadosUsuario = new DTOs.NovoUsuario
       {
         Login = "usuario login",
         Senha = "123456"

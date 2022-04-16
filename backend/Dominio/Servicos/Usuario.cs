@@ -6,7 +6,7 @@ namespace Agenda.Dominio.Servicos
 {
   public interface Usuario
   {
-    Task<Resposta<Modelos.Usuario>> Salvar(DTOs.Usuario dadosUsuario);
+    Task<Resposta<Modelos.Usuario>> Salvar(DTOs.NovoUsuario dadosUsuario);
 
     Task<List<Modelos.Usuario>> Listar();
 
@@ -14,7 +14,7 @@ namespace Agenda.Dominio.Servicos
 
     Task<Resposta<Modelos.Usuario>> Deletar(int id);
 
-    Task<Resposta<DTOs.Usuario>> Autenticar(DTOs.Usuario dadosUsuario);
+    Task<Resposta<DTOs.Usuario>> Autenticar(DTOs.NovoUsuario dadosUsuario);
 
     Task<bool> ValidarToken(string token);
   }
